@@ -35,7 +35,15 @@
         </div>
       <$ } $>
 
-      <span class="button">+ ADD TO FAVORITES</span>
+      <div class="add-to-list hide">
+        <h2>Add to a List</h2>
+        <select name="userLists" id="userLists">
+          <script type="text/template" id="userListOptionTemplate">
+            <option class="comic-list-option" value="<%= title %>"><%= title %></option>
+          </script>
+        </select>
+        <span class="button" id="addComicToList">+ ADD TO LIST</span>
+      </div>
     </article>
   </section>
 

@@ -102,6 +102,14 @@ img {
   max-width: 200px;
   width: 100%; }
 
+select {
+  border: 1px solid #000;
+  outline: none;
+  font-size: 20px;
+  margin: 20px 0 0 0; }
+  select option {
+    padding: 10px; }
+
 /* ---------- IDS -------------------------- */
 #characters {
   padding: 30px 20px 20px; }
