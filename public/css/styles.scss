@@ -1,3 +1,451 @@
-body {
+/* ---------- VARIABLES -------------------- */
+$black: #000;
+$white: #FFF;
+$gray: #333;
+$lightgray: #CCC;
+$palegray: #EEF4F4;
+$red: #B6050F;
+$redhover: #96030a;
+$darkblue: #102b56;
+$darkbluehover: #0B1E3C;
+$lightblue: #70A0C8;
+$lightbluehover: #5a91bf;
+$turquoise: #5F9EA0;
+$turquoisehover: #4d7e80;
 
+/* ---------- MIXINS ----------------------- */
+@mixin transition($duration) {
+  -webkit-transition: $duration;
+  -moz-transition: $duration;
+  transition: $duration;
+}
+
+@mixin box-sizing($boxtype) {
+  -webkit-box-sizing: $boxtype;
+  -moz-box-sizing: $boxtype;
+  box-sizing: $boxtype;
+  }
+
+/* ---------- TAGS ------------------------ */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Economica', arial, sans-serif;
+  font-size: 15px;
+  margin: 0 auto;
+  position: relative;
+
+  &.loading {
+
+    &:after {
+      font-family: 'Fjalla One';
+      content: 'Loading...';
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      text-align: center;
+      font-size: 50px;
+      text-transform: uppercase;
+      color: white;
+      line-height: 20em;
+      background: rgba(0, 0, 0, 0.8) url("../images/hulk.gif") no-repeat center center;
+      z-index: 1000;
+    }
+
+  }
+}
+
+header {
+  h1 {
+    font-family: 'Fjalla One', sans-serif;
+  }
+}
+
+p {
+  font-size: 19px;
+}
+
+nav {
+  font-family: 'Fjalla One', sans-serif;
+  width: 100%;
+  background-color: $red;
+  position: fixed;
+  top: 0;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      text-transform: uppercase;
+      display: inline-block;
+      font-size: 20px;
+
+      a {
+        display: inline-block;
+        padding: 20px;
+        color: $white;
+        text-decoration: none;
+
+        &:hover {
+          background-color: $redhover;
+        }
+      }
+    }
+  }
+}
+
+section, div, article {
+  @include box-sizing(border-box);
+  text-align: center;
+}
+
+a {
+  @include transition(0.5s);
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  font-family: 'Fjalla One', sans-serif;
+}
+
+span {
+  @include transition(0.5s);
+
+  &.button {
+    @include box-sizing(border-box);
+    color: $white;
+    padding: 15px 30px;
+    display: inline-block;
+    margin: 15px auto;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+button {
+  outline: none;
+}
+
+input {
+  font-family: 'Economica', arial, sans-serif;
+  width: 30%;
+  outline: none;
+  padding: 15px 0;
+  border: none;
+  border-bottom: 1px solid #444;
+  margin: 0 10px 0 0;
+  @include box-sizing(border-box);
+}
+
+img {
+  max-width: 200px;
+  width: 100%;
+}
+
+/* ---------- IDS -------------------------- */
+#characters {
+  padding: 30px 20px 20px;
+
+  h1 {
+    text-transform: uppercase;
+  }
+
+  a {
+    color: $gray;
+    display: block;
+    margin: 5px 0;
+    font-size: 18px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+/* ---------- CLASSES ---------------------- */
+
+.container {
+  height: 100%;
+  margin: 65px 0 0 0;
+}
+
+.home {
+  font-family: 'Fjalla One';
+  overflow: hidden;
+  margin: -65px 0;
+
+  div {
+    height: 100%;
+  }
+
+  div > article {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    vertical-align: top;
+  }
+
+  .search .flex-container, .viewAllCharacters .flex-container {
+    padding: 20px;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+
+    & > * {
+      margin: 65px 0 0 0;
+    }
+  }
+
+  .search {
+    background-color: $palegray;
+
+    h2 {
+      text-transform: uppercase;
+      font-size: 60px;
+
+      span {
+        display: inline-block;
+      }
+    }
+
+    div div {
+      border: 1px solid $black;
+      height: 50%;
+      width: 100%;
+      display: inline-block;
+      padding: 10px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      background-color: $red;
+      border: 1px solid $red;
+      padding: 20px;
+      margin: 20px auto;
+      font-size: 20px;
+      @include box-sizing(border-box);
+      color: $white;
+      @include transition(0.5s);
+
+      &:hover {
+        background-color: $redhover;
+        cursor: pointer;
+      }
+
+      &.disabled {
+        border: 1px solid $lightgray;
+        background-color: $lightgray;
+
+        &:hover {
+          cursor: default;
+        }
+      }
+    }
+
+    input {
+      font-family: 'Fjalla One';
+      background: $palegray;
+      width: 100%;
+      font-size: 20px;
+      text-align: center;
+
+      &:focus {
+        border-bottom: 1px solid $red;
+      }
+    }
+  }
+
+  .viewAllCharacters {
+    background-color: $black;
+
+    a {
+      display: inline-block;
+      height: 50%;
+      width: 100%;
+      font-size: 100px;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      padding: 20px;
+      border: 1px solid $white;
+      @include box-sizing(border-box);
+
+      &:hover {
+        color: $red;
+        border: 1px solid $red;
+      }
+    }
+  }
+
+  #characterSearchResults {
+    padding: 30px 0 0 0;
+
+    h2 {
+      color: $red;
+      font-size: 40px;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      color: $gray;
+      font-size: 20px;
+      padding: 0 0 30px 0;
+      border-bottom: 1px solid $black;
+    }
+
+    .character-item {
+      padding: 20px;
+
+      &:nth-child(2n) {
+        background: $black;
+      }
+
+      h2 {
+        margin: 0 0 10px 0;
+      }
+
+      a {
+        color: $red;
+
+        &:hover {
+          color: $redhover;
+        }
+      }
+
+      img {
+        @include transition(0.5s);
+
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
+
+.character-show {
+
+  article {
+    width: 50%;
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .comic-container {
+    height: 100%;
+    overflow: scroll;
+
+    .comic {
+      width: 49%;
+      display: inline-block;
+    }
+  }
+
+  .character-container {
+    height: 100%;
+    overflow: hidden;
+
+    h1 {
+      text-transform: uppercase;
+      font-size: 30px;
+    }
+
+    p {
+      margin: 10px 0 0 0;
+    }
+
+    div {
+      padding: 20px;
+    }
+  }
+}
+
+.comic-show {
+  article {
+    width: 50%;
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .comic-info {
+    padding: 20px;
+
+    h1, h2 {
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
+    h2 {
+      font-size: 25px;
+      padding: 20px 0 10px 0;
+      border-bottom: 1px solid;
+      color: $red;
+    }
+
+    div {
+      margin: 10px 0;
+    }
+
+    span.button {
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 20px;
+      background-color: $red;
+
+      &:hover {
+        background-color: $redhover;
+      }
+    }
+
+    .characters {
+
+      h3 {
+        margin: 10px 0 0 0;
+      }
+    }
+
+    .creators {
+      h3 {
+        margin: 15px 0 5px 0;
+      }
+    }
+  }
+}
+
+.disabled {
+  background-color: $gray;
+}
+
+.hide {
+  display: none;
+}
+
+.error {
+  color: $red;
 }
