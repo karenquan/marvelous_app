@@ -6,6 +6,8 @@ var Main = (function() {
       $characterTemplateString,
       renderCharacterTemplate,
       renderedCharacterTemplate,
+      $userListOptionTemplate,
+      renderedUserListOption,
       $searchButton = $('#searchButton'),
       offset,
       allCharacters = [];
@@ -20,27 +22,29 @@ var Main = (function() {
   $characterSearchResults = $('#characterSearchResults .results');
   $characterTemplateString = $('#characterTemplate').html();
   renderCharacterTemplate = _.template($characterTemplateString);
+  $userListOptionTemplate = $('#userListOptionTemplate').html();
+  renderUserListOptionTemplate = _.template($userListOptionTemplate);
 
 // CORE  -----------------------------------------------------------------------
   var _core = function() {
+    loadUsersLists();
 
     // EVENT HANDLERS ----------------------------------------------------------
-    $searchButton.on('click', function() {
+    $searchButton.on('click', function(e) {
       $('body.home').css('overflow', 'visible');
       $characterSearchResultsContainer.removeClass('hide');
       $('#characterSearchResults .results').empty();
-      // getCharacter($('#characterNameInput').val());
       searchForCharactersByName($('#characterNameInput').val());
       var resultsOffset = $('#characterSearchResults').offset();
       $('body').animate({
         scrollTop: resultsOffset.top - $('nav').height()
-      });
+      }); //scroll top animation to display search results
     });
 
     $('#characterNameInput').val('').focus();
     $searchButton.attr('disabled', true); //disabled by default
     //only allow search button to be clicked when user has input text
-    $('#characterNameInput').on('keypress keyup', function() {
+    $('#characterNameInput').on('keypress keyup', function(e) {
       if($('#characterNameInput').val().length > 0) {
         $searchButton.removeClass('disabled');
         $searchButton.attr('disabled', false);
@@ -50,8 +54,14 @@ var Main = (function() {
       }
     });
 
-    $('#characters a, .comic').on('click', function() {
+    // ADD LOADING GIF
+    $('#characters a, .comic').on('click', function(e) {
       $('body').addClass('loading');
+    });
+
+    // ADD COMIC TO LIST
+    $('#addComicToList').on('click', function() {
+        console.log('add!!!!');
     });
 
     // AJAX --------------------------------------------------------------------
@@ -70,6 +80,21 @@ var Main = (function() {
             $('body').addClass('loading');
           }); //add loading gif while next page loads
         }, logErrors);
+    }
+
+    function loadUsersLists() { //on comic show page
+      $.ajax({
+          url: '/users/1/lists', //need to grab dynamic facebookId
+          method: 'GET'
+      }).then(function(lists) {
+        if(lists.length > 0) { //if user has any lists, display them as a dropdown
+          lists.forEach(function(list) {
+            $('#userLists').append(renderUserListOptionTemplate(list));
+          });
+          //unhide list if they have any lists
+          $('.add-to-list').removeClass('hide');
+        }
+      }, logErrors);
     }
   }; //END _core()
 
