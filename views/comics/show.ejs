@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <$- include('../partials/head') $>
+</head>
+<body class="comic-show">
+  <$- include('../partials/nav') $>
+  <section class="container">
+    <article class="comic-container">
+      <img src="<$= comic.thumbnail.path $>.<$= comic.thumbnail.extension $>" alt="<$= comic.title $>">
+    </article><!-- comment to remove extra space
+--><article class="comic-info">
+      <h1><$= comic.title $></h1>
+      <$ if (comic.description != null && comic.description != "") { $>
+        <p><$= comic.description $></p>
+      <$ } $>
+      <!-- CHARACTERS -->
+      <$ if(comic.characters.available > 0) { $>
+        <div class="characters">
+          <h2>Characters</h2>
+          <$ comic.characters.items.forEach(function(character) { $>
+            <h3><$= character.name $></h3>
+          <$ }); $>
+        </div>
+      <$ } $>
+
+      <!-- CREATORS -->
+      <$ if(comic.creators.available > 0) { $>
+        <div class="creators">
+          <h2>Creators</h2>
+          <$ comic.creators.items.forEach(function(creator) { $>
+            <h3><$= creator.name $></h3>
+            <span><$= creator.role $></span>
+          <$ }); $>
+        </div>
+      <$ } $>
+
+      <div class="add-to-list hide">
+        <h2>Add to a List</h2>
+        <select name="userLists" id="userLists">
+          <script type="text/template" id="userListOptionTemplate">
+            <option class="comic-list-option" value="<%= title %>"><%= title %></option>
+          </script>
+        </select>
+        <span class="button" id="addComicToList">+ ADD TO LIST</span>
+      </div>
+    </article>
+  </section>
+
+  <$- include('../partials/scripts') $>
+</body>
+</html>

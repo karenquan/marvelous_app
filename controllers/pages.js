@@ -1,7 +1,7 @@
-var welcome = function(req, res, next) {
-  res.render('pages/welcome');
+module.exports = {
+  index: index
 };
 
-module.exports = {
-  welcome: welcome
-};
+function index(req, res, next) {
+  res.render('pages/index');
+}

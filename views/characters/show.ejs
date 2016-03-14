@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <$- include('../partials/head') $>
+</head>
+<body class="character-show">
+  <$- include('../partials/nav') $>
+  <section class="container">
+    <article class="character-container">
+      <div>
+        <h1><$= character.name $></h1>
+        <$ if (character.description.length > 0) { $>
+          <p><$= character.description $></p>
+        <$ } $>
+      </div>
+      <$ if (character.thumbnail.length > 0) { $>
+        <img src="<$= character.thumbnail $>" alt="<$= character.name $>" />
+      <$ } $>
+    </article><!-- comment to remove extra space
+  --><article class="comic-container">
+      <$ comics.forEach(function(comic) { $>
+        <div class="comic">
+          <a href="/comics/<$= comic.id $>"><img src="<$= comic.thumbnail $>" alt="<$= comic.title $>"></a>
+          <!-- <h3><a href="/comics/<$= comic.id $>"><$= comic.title $></a></h3> -->
+        </div>
+      <$ }); $>
+    </article>
+  </section>
+
+  <!-- NEED TO IMPLEMENT TEMPLATING -->
+
+  <$- include('../partials/scripts') $>
+</body>
+</html>

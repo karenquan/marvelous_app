@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <$- include('../partials/head') $>
+</head>
+<body class="home">
+  <$- include('../partials/nav') $>
+  <section class="container">
+    <div>
+      <article class="search">
+        <div class="flex-container">
+          <div>
+            <h2><span>Search For An</span> <span>Individual Character</span></h2>
+            <input type="text" id="characterNameInput">
+            <button id="searchButton" class="disabled">SEARCH</button>
+          </div>
+        </div>
+      </article><!-- comment to remove extra space
+    --><article class="viewAllCharacters">
+        <div class="flex-container">
+          <a href="/characters">view all characters</a>
+        </div>
+      </article>
+    </div>
+
+    <article id="characterSearchResults" class="hide">
+      <h2 class="character-name"></h2>
+      <h3><span class="result-count"></span> Results</h3>
+      <div class="results"></div>
+    </article>
+  </section>
+
+  <script type="text/template" id="characterTemplate">
+    <div class="character-item">
+      <h2 class="character-info"><a href="/characters/<%= id %>"><%= name %></a></h2>
+      <a href="/characters/<%= id %>"><img src="<%= thumbnail %>" /></a>
+    </div>
+  </script>
+  <$- include('../partials/scripts') $>
+</body>
+</html>

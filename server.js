@@ -20,6 +20,7 @@ app.set('safe-title', env.SAFE_TITLE);
 // EJS view engine config
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+require('ejs').delimiter = '$';
 
 // Create local variables for use thoughout the application.
 app.locals.title = app.get('title');
@@ -37,6 +38,12 @@ app.use(cookieParser('notsosecretnowareyou'));
 
 // Routes to static assets. Uncomment below if you have a favicon.
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(require('node-sass-middleware')({
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public'),
+  indentedSyntax: false,
+  sourceMap: false
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Useful for debugging the state of requests.

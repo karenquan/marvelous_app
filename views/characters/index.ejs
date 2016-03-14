@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <$- include('../partials/head') $>
+</head>
+<body class="character-index">
+  <$- include('../partials/nav') $>
+  <section class="container">
+    <article id="characters">
+      <h1>View All Characters</h1>
+      <p>Total: <strong><$= characters.length $></strong></p>
+      <div class="results">
+        <$ characters.forEach(function(character) { $>
+          <a href="/characters/<$= character.id $>"><$= character.name $></a>
+        <$ }); $>
+      </div>
+    </article>
+  </section>
+  <$- include('../partials/scripts') $>
+</body>
+</html>
