@@ -34,6 +34,7 @@ function show(req, res, next) {
 
     character = returnedCharacter[0];
     console.log(character);
+    console.log('_id: ' + character._id);
     var ts = Date().toString();
 
     // --- NEED TO UPDATE & HIDE KEYS IN .ENV
@@ -45,25 +46,25 @@ function show(req, res, next) {
       method: 'GET',
       uri: 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey=c3efb289a52afc7877c1772359aad41a&hash=' + hash
     }, function (error, response, body) {
+      if (error) console.log(error);
+
       if (!error && response.statusCode == 200) {
-          console.log(body);
+        var comics = JSON.parse(response.body).data.results;
+
+        var parsedComics = [];
+        comics.forEach(function(comic) {
+          var _comic = {};
+          _comic.id = comic.id;
+          _comic.title = comic.title;
+          _comic.description = comic.description;
+          _comic.thumbnail = comic.thumbnail.path + '.' + comic.thumbnail.extension;
+          parsedComics.push(_comic);
+        });
+
+        //add object of comics to view
+        res.render('characters/show', { character: character, comics: parsedComics });
       }
-      var comics = JSON.parse(response.body).data.results;
-
-      var parsedComics = [];
-      comics.forEach(function(comic) {
-        var _comic = {};
-        _comic.id = comic.id;
-        _comic.title = comic.title;
-        _comic.description = comic.description;
-        _comic.thumbnail = comic.thumbnail.path + '.' + comic.thumbnail.extension;
-        parsedComics.push(_comic);
-      });
-
-      //add object of comics to view
-      res.render('characters/show', { character: character, comics: parsedComics });
     });
-
   });
 }
 

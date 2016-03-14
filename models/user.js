@@ -8,7 +8,7 @@ var comicSchema = new mongoose.Schema({
   thumbnail: { type: String, default: "" }
 });
 
-var favoritesSchema = new mongoose.Schema({
+var listSchema = new mongoose.Schema({
   title: { type: String, required: true },
   comics: [comicSchema]
 });
@@ -16,7 +16,7 @@ var favoritesSchema = new mongoose.Schema({
 var userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   facebookId: { type: Number, required: true },
-  favorites: [favoritesSchema]
+  lists: [listSchema]
 });
 
 var User = mongoose.model('User', userSchema);

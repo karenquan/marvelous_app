@@ -3,14 +3,29 @@
 <head>
   <$- include('../partials/head') $>
 </head>
-<body>
-  <$- include('../partials/header', { subHeading: user.name + "'s Profile" }) $>
+<body class="user-show">
+  <$- include('../partials/nav') $>
 
-  <main>
-    <p>Name:   <$= user.name $><p>
-    <p>Handle: <$= user.handle $><p>
-    <p><a href="/users">Back to the user list.</a></p>
-  </main>
+  <section class="container">
+    <h1><$- user.name $></h1>
+
+    <h2>My Lists</h2>
+    <div class="comic-lists">
+      <$ if(user.lists.length > 0) { $>
+        <$ user.lists.forEach(function(list) { $>
+          <div class="list">
+            <h3><$= list.title $></h3>
+            <$ if (list.comics.length > 0) { $>
+              <$ list.comics.forEach(function(comic) { $>
+                <img src="<$= comic.thumbnail $>" alt="<$= comic.thumbnail $>">
+              <$ }); $> <!-- end loop through comics in a particular list -->
+            <$ } $> <!-- end check if there are any comics in a particular list -->
+          </div>
+        <$ }); $> <!-- end loop through user's lists -->
+      <$ } $> <!-- end check if user has any lists -->
+
+    </div>
+  </section>
 
   <$- include('../partials/scripts') $>
 </body>
