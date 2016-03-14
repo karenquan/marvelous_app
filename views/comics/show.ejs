@@ -9,7 +9,7 @@
     <article class="comic-container">
       <img src="<$= comic.thumbnail.path $>.<$= comic.thumbnail.extension $>" alt="<$= comic.title $>">
     </article><!-- comment to remove extra space
---><article class="comic-info">
+--><article class="comic-info" data-id="<$= comic.id $>">
       <h1><$= comic.title $></h1>
       <$ if (comic.description != null && comic.description != "") { $>
         <p><$= comic.description $></p>
@@ -39,7 +39,7 @@
         <h2>Add to a List</h2>
         <select name="userLists" id="userLists">
           <script type="text/template" id="userListOptionTemplate">
-            <option class="comic-list-option" value="<%= title %>"><%= title %></option>
+            <option class="comic-list-option" value="<%= title %>" data-id="<%= _id %>"><%= title %></option>
           </script>
         </select>
         <span class="button" id="addComicToList">+ ADD TO LIST</span>
