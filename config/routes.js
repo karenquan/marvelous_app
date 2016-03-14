@@ -17,7 +17,7 @@ router.get('/users/:id', usersController.show);
 
 // characters
 router.get('/characters', charactersController.index);
-router.post('/characters/create', charactersController.create);
+router.post('/characters', charactersController.create);
 router.get('/characters/:id', charactersController.show);
 router.get('/characters/search/:name', charactersController.search);
 
@@ -25,9 +25,9 @@ router.get('/characters/search/:name', charactersController.search);
 router.get('/comics/:id', comicsController.show);
 
 //api
-router.post('/users/:id/lists/create', apiController.createList);
+router.post('/users/:id/lists', apiController.createList);
 router.delete('/users/:id/lists/:id', apiController.destroyList);
-router.post('/users/:id/lists/:id/comics/create', apiController.createComic);
+router.post('/users/:id/lists/:id/comics', apiController.createComic);
 router.delete('/users/:id/lists/:id/comics/:id', apiController.destroyComic);
 router.get('/users/:id/lists', apiController.getUserLists);
 
