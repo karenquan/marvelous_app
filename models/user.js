@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
     debug    = require('debug')('app:models');
 
 var comicSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
   title: { type: String, required: true },
   description: { type: String, default: "" },
   thumbnail: { type: String, default: "" }

@@ -4,11 +4,8 @@ var Character = require('../models/character');
 var request = require('request');
 var md5 = require('md5');
 
-// var MARVEL_BASE_ENDPOINT = 'http://gateway.marvel.com',
-//       MARVEL_PUBLIC_KEY = 'c3efb289a52afc7877c1772359aad41a';
-
 var MARVEL_BASE_ENDPOINT = 'http://gateway.marvel.com',
-    MARVEL_PUBLIC_KEY = 'c3efb289a52afc7877c1772359aad41a',
+    MARVEL_PUBLIC_KEY = process.env.MARVEL_PUBLIC_KEY,
     allCharacters = [],
     uri,
     ts,
@@ -23,11 +20,14 @@ Character.remove({}, function(err) {
   // --- NEED TO UPDATE & HIDE KEYS IN .ENV
   // var hash = md5(ts + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY);
   var hash = md5(ts + '5dd8925717ff2e9c19813e80ee8b00448736fda0c3efb289a52afc7877c1772359aad41a');
+  console.log('public key: ' + MARVEL_PUBLIC_KEY);
   request({
     method: 'GET',
-    uri: MARVEL_BASE_ENDPOINT + '/v1/public/characters?limit=100&ts=' + ts + '&apikey=c3efb289a52afc7877c1772359aad41a&hash=' + hash
+    uri: MARVEL_BASE_ENDPOINT + '/v1/public/characters?limit=100&offset=0&ts=' + ts + '&apikey=c3efb289a52afc7877c1772359aad41a&hash=' + hash
   },
   function (error, response, body) {
+    console.log(error);
+
     if (!error && response.statusCode == 200) {
       var characters = JSON.parse(response.body).data.results;
       var totalCharacters = JSON.parse(response.body).data.total;
@@ -43,6 +43,8 @@ Character.remove({}, function(err) {
       var offset = 1;
 
       for(var i = 1; i <= numOfIterations; i++) {
+        console.log('iteration: ' + i);
+
         offset = i * 100;
         ts = Date().toString() + i.toString();
         hash = md5(ts + '5dd8925717ff2e9c19813e80ee8b00448736fda0c3efb289a52afc7877c1772359aad41a');
@@ -52,7 +54,12 @@ Character.remove({}, function(err) {
           method: 'GET',
           uri: uri
         }, function(error, response, body){
+          console.log(uri);
+
+          if (error) console.log(error);
+
           if (!error && response.statusCode == 200) {
+            console.log('---------------------------');
             var characters = JSON.parse(response.body).data.results;
             var totalCharacters = JSON.parse(response.body).data.total;
             // console.log(characters);
@@ -63,16 +70,21 @@ Character.remove({}, function(err) {
               }
             });
 
-            // console.log(allCharacters.length);
+            console.log('length: ' + allCharacters.length);
+
+            if (i == numOfIterations) { // ON LAST CALL, CLOSE CONNECTION & CALCULATE TOTAL
+              // mongoose.connection.close(function(err) {
+              //   if (err) console.log(err);
+              //   process.exit(0);
+              // });
+              console.log('Seeded ' + allCharacters.length + 'characters.');
+            }
           }//END success condition
         });//END of looped request
       } //END for loop
     } // END of success condition
 
-    // mongoose.connection.close(function(err) {
-    //   if (err) console.log(err);
-    //   process.exit(0);
-    // });
+
   });
 });
 
