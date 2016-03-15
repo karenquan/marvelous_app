@@ -15,7 +15,7 @@ var Main = (function() {
       $updateListTitleButton = $('#updateListTitleButton'),
       offset,
       allCharacters = [],
-      CURRENT_USER_FB_ID = 1; //UPDATE THIS WITH DYNAMIC FB ID
+      CURRENT_USER_FB_ID = facebookId; //UPDATE THIS WITH DYNAMIC FB ID
 
   var MARVEL_BASE_ENDPOINT = 'http://gateway.marvel.com:80/v1/public/',
       MARVEL_PUBLIC_KEY = 'c3efb289a52afc7877c1772359aad41a';
@@ -98,7 +98,7 @@ var Main = (function() {
     // LOAD USER LISTS DROPDOWN ON COMIC SHOW PAGE
     function loadUsersLists() {
       $.ajax({
-          url: '/users/1/lists', //need to grab dynamic facebookId
+          url: '/users/' + CURRENT_USER_FB_ID + '/lists',
           method: 'GET'
       }).then(function(lists) {
         if(lists.length > 0) { //if user has any lists, display them as a dropdown
@@ -209,6 +209,7 @@ var Main = (function() {
     button.attr('disabled', true); //disabled by default
     //only allow search button to be clicked when user has input text
     input.on('keypress keyup', function(e) {
+      console.log('hi');
       if(input.val().length > 0) {
         button.removeClass('disabled');
         button.attr('disabled', false);
