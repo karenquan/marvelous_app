@@ -14,6 +14,18 @@
       <$ if (comic.description != null && comic.description != "") { $>
         <p class="comic-description"><$= comic.description $></p>
       <$ } $>
+
+      <!-- LISTS -->
+      <div class="add-to-list hide">
+        <h2>Add to a List</h2>
+        <select name="userLists" id="userLists">
+          <script type="text/template" id="userListOptionTemplate">
+            <option class="comic-list-option" value="<%= title %>" data-id="<%= _id %>"><%= title %></option>
+          </script>
+        </select>
+        <span class="button" id="addComicToList">+ ADD TO LIST</span>
+      </div>
+
       <!-- CHARACTERS -->
       <$ if(comic.characters.available > 0) { $>
         <div class="characters">
@@ -34,16 +46,6 @@
           <$ }); $>
         </div>
       <$ } $>
-
-      <div class="add-to-list hide">
-        <h2>Add to a List</h2>
-        <select name="userLists" id="userLists">
-          <script type="text/template" id="userListOptionTemplate">
-            <option class="comic-list-option" value="<%= title %>" data-id="<%= _id %>"><%= title %></option>
-          </script>
-        </select>
-        <span class="button" id="addComicToList">+ ADD TO LIST</span>
-      </div>
     </article>
   </section>
 

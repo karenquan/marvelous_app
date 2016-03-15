@@ -10,6 +10,7 @@ var Main = (function() {
       renderedUserListOption,
       $searchButton = $('#searchButton'),
       $addListButton = $('#addListButton'),
+      $addListInput = $('#addListInput'),
       offset,
       allCharacters = [],
       CURRENT_USER_FB_ID = 1; //UPDATE THIS WITH DYNAMIC FB ID
@@ -47,9 +48,24 @@ var Main = (function() {
     });
 
     // USER PAGE ADD LIST
-    disableButtonUntilInput($('#addListInput'), $addListButton);
+    disableButtonUntilInput($addListInput, $addListButton);
     $("#addListButton").on('click', function(e) {
-      console.log('click');
+      var listName = $('#addListInput').val();
+      var data = {
+        facebookId: CURRENT_USER_FB_ID,
+        listName: listName
+      };
+      $.ajax({
+        method: 'POST',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists',
+        data: data
+      }).then(function(list) {
+        disableButtonUntilInput($addListInput, $addListButton);
+        var $newList = $('<div />', { 'class': 'list' }); //visually add new list section
+          var $title = $('<h3 />', { text: listName });
+        $newList.append($title);
+        $('.comic-lists').append($newList);
+      });
     });
 
     function disableButtonUntilInput(input, button) {
@@ -77,20 +93,20 @@ var Main = (function() {
 
     // SEARCH FOR CHARACTER BY NAME (HOME PAGE)
     function searchForCharactersByName(name) {
-        $.ajax({
-          url: '/characters/search/' + encodeURIComponent(name),
-          method: 'GET',
-          dataType: 'json'
-        }).then(function(characters) {
-          $('.result-count').html(characters.length);
-          $('#characterSearchResults .character-name').html(name);
-          characters.forEach(function(character) {
-            $characterSearchResults.append(renderCharacter(character));
-          });
-          $('.character-item h2, .character-item img').on('click', function() {
-            $('body').addClass('loading');
-          }); //add loading gif while next page loads
-        }, logErrors);
+      $.ajax({
+        url: '/characters/search/' + encodeURIComponent(name),
+        method: 'GET',
+        dataType: 'json'
+      }).then(function(characters) {
+        $('.result-count').html(characters.length);
+        $('#characterSearchResults .character-name').html(name);
+        characters.forEach(function(character) {
+          $characterSearchResults.append(renderCharacter(character));
+        });
+        $('.character-item h2, .character-item img').on('click', function() {
+          $('body').addClass('loading');
+        }); //add loading gif while next page loads
+      }, logErrors);
     }
 
     // LOAD USER LISTS DROPDOWN ON COMIC SHOW PAGE

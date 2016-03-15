@@ -9,13 +9,25 @@ module.exports = {
 };
 
 function createList(req, res, next) {
-  var id = req.params.id;
-  // var newList = req.params.body;
-  User.find({ id: id}, function(error, user) {
+  var data = req.body; //data contains user & list name
+  console.log(data);
+  User.find({ facebookId: data.facebookId }, function(error, user) {
     if(error) next(error);
 
-    console.log(user);
-    // user.lists.push(newList);
+    var _user = user[0];
+    _user.lists.push({
+      title: data.listName
+    });
+
+    _user.save(function(error) {
+      if (error) {
+        console.log(error);
+        next(error);
+      } else {
+        console.log('added list!');
+        res.send();
+      }
+    });
   });
 }
 

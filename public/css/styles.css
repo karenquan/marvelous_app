@@ -293,7 +293,8 @@ select {
   .comic-show .comic-info div {
     margin: 10px 0; }
   .comic-show .comic-info span.button {
-    font-size: 20px; }
+    font-size: 20px;
+    margin: 15px; }
   .comic-show .comic-info .characters h3 {
     margin: 10px 0 0 0; }
   .comic-show .comic-info .creators h3 {
