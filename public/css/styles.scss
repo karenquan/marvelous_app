@@ -201,7 +201,14 @@ select {
   padding: 30px 20px 20px;
 
   h1 {
+    font-size: 40px;
     text-transform: uppercase;
+  }
+
+  h2 {
+    font-family: 'Economica', arial, sans-serif;
+    font-size: 30px;
+    margin: 0 0 20px 0;
   }
 
   a {
