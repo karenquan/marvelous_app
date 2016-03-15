@@ -36,12 +36,11 @@ function addComicToList(req, res, next) {
       thumbnail: data.thumbnail
     });
     // console.log(list);
-    _user .save(function(error) {
+    _user.save(function(error) {
       if (error) {
         console.log(error);
         next(error);
-      }
-      else {
+      } else {
         console.log('added comic!');
         res.send();
       }
@@ -50,7 +49,23 @@ function addComicToList(req, res, next) {
 }
 
 function destroyComic(req, res, next) {
-
+  var data = req.body; //data contains comic & user info
+  // console.log(data);
+  User.find({ facebookId: data.facebookId }, function(error, user) {
+    var _user = user[0];
+    var list = _user.lists.id(data.listId);
+    list.comics.id(data.comicId).remove();
+    _user.save(function(error) {
+      if(error) {
+        console.log(error);
+        next(error);
+      } else {
+        console.log('removed comic');
+        res.send();
+      }
+    });
+    console.log(list.comics.id(data.comicId));
+  });
 }
 
 function getUserLists(req, res, next) {

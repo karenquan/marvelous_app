@@ -10,7 +10,8 @@ var Main = (function() {
       renderedUserListOption,
       $searchButton = $('#searchButton'),
       offset,
-      allCharacters = [];
+      allCharacters = [],
+      CURRENT_USER_FB_ID = 1; //UPDATE THIS WITH DYNAMIC FB ID
 
   var MARVEL_BASE_ENDPOINT = 'http://gateway.marvel.com:80/v1/public/',
       MARVEL_PUBLIC_KEY = 'c3efb289a52afc7877c1772359aad41a';
@@ -61,33 +62,42 @@ var Main = (function() {
 
     // ADD COMIC TO LIST
     $('#addComicToList').on('click', function(e) {
-        //var userFacebookId = CURRENT_USER_FB_ID;
-        var userFacebookId = 1; //TEST
-        var selectedListId = $('#userLists').find(":selected").data('id');
-        var data = {
-          id: $('.comic-info').data('id'),
-          title: $('.comic-title').html(),
-          description: $('.comic-description').length ? $('.comic-description').html() : "",
-          thumbnail: $('img.comic-thumbnail').attr('src'),
-          facebookId: userFacebookId,
-          listId: selectedListId
-        };
-        // console.log(JSON.stringify(comic));
-        $.ajax({
-            method: 'POST',
-            url: '/users/' + userFacebookId + '/lists/' + selectedListId + '/comics',
-            data: data
-        }).then(function(comic) {
-            console.log('added comic? plz?');
-            console.log(comic);
-        });
+      var selectedListId = $('#userLists').find(":selected").data('id');
+      var data = {
+        id: $('.comic-info').data('id'),
+        title: $('.comic-title').html(),
+        description: $('.comic-description').length ? $('.comic-description').html() : "",
+        thumbnail: $('img.comic-thumbnail').attr('src'),
+        facebookId: CURRENT_USER_FB_ID,
+        listId: selectedListId
+      };
+      // console.log(JSON.stringify(comic));
+      $.ajax({
+          method: 'POST',
+          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + selectedListId + '/comics',
+          data: data
+      }).then(function(comic) {
+          console.log('added comic? plz?');
+          console.log(comic);
+      });
     });
 
     //DELETE COMIC FROM LIST
     $('.comic-lists').delegate('#removeComic', 'click', function(e) {
-      e.preventDefault();
-      var comic = $(this).closest('div')[0];
-      console.log(comic);
+      var listId = $(this).parents('.list').data('id');
+      var comicId = $($(this).closest('div')[0]).data('id');
+      var data = {
+        facebookId: CURRENT_USER_FB_ID,
+        listId: listId,
+        comicId: $($(this).closest('div')[0]).data('id')
+      };
+      $.ajax({
+        method: 'DELETE',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
+        data: data
+      }).then(function(comic) {
+        console.log('deleted comic');
+      });
     });
 
     // AJAX --------------------------------------------------------------------

@@ -13,7 +13,7 @@
     <div class="comic-lists">
       <$ if(user.lists.length > 0) { $>
         <$ user.lists.forEach(function(list) { $>
-          <div class="list">
+          <div class="list" data-id="<$= list._id $>">
             <h3><$= list.title $></h3>
             <$ if (list.comics.length > 0) { $>
               <$ list.comics.forEach(function(comic) { $>
