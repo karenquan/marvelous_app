@@ -6,6 +6,8 @@ var bodyParser   = require('body-parser');
 var debug        = require('debug')('app:http');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var passport = require('passport');
+
 // Load local libraries.
 var env      = require('./config/environment'),
     mongoose = require('./config/database'),
@@ -41,6 +43,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routing layers: favicon, static assets, dynamic routes, or 404…
 
