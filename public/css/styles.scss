@@ -97,6 +97,10 @@ nav {
           background-color: $redhover;
         }
       }
+
+      &.right {
+        float: right;
+      }
     }
   }
 }
