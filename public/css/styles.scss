@@ -152,6 +152,7 @@ button {
 
   &:hover {
     background-color: $redhover;
+    border: 1px solid $redhover;
     cursor: pointer;
   }
 
@@ -503,6 +504,12 @@ select {
         background-color: $black;
 
         h3 {
+          color: $white;
+        }
+
+        input {
+          background-color: $black;
+          border-bottom: 1px solid $white;
           color: $white;
         }
       }

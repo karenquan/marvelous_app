@@ -105,6 +105,7 @@ button {
   outline: none; }
   button:hover {
     background-color: #96030a;
+    border: 1px solid #96030a;
     cursor: pointer; }
   button.disabled {
     border: 1px solid #CCC;
@@ -342,6 +343,10 @@ select {
     .user-show .comic-lists .list:nth-child(2n) {
       background-color: #000; }
       .user-show .comic-lists .list:nth-child(2n) h3 {
+        color: #FFF; }
+      .user-show .comic-lists .list:nth-child(2n) input {
+        background-color: #000;
+        border-bottom: 1px solid #FFF;
         color: #FFF; }
     .user-show .comic-lists .list h3 {
       font-size: 30px;
