@@ -52,6 +52,8 @@ nav {
         text-decoration: none; }
         nav ul li a:hover {
           background-color: #96030a; }
+      nav ul li.right {
+        float: right; }
 
 section, div, article {
   -webkit-box-sizing: border-box;

@@ -3,11 +3,11 @@
     <li><a href="/">marvelous</a></li>
     <li><a href="/">search</a></li>
     <li><a href="/characters">characters</a></li>
-    <$ if (user) { $> <!-- Ask for tomorrow, maybe move this to the farther right of the nav bar? -->
-    <li><a data-fb-id="<$= user.facebookId $>" href="/users/<$= user.facebookId $>" class="userName"><$= user.name $></a></li>
-    <li><a href="/logout">Logout</a></li>
+    <$ if (user) { $>
+    <li><a data-fb-id="<$= user.facebookId $>" href="/users/<$= user.facebookId $>" class="userName">profile</a></li>
+    <li class="right"><a href="/logout">Logout</a></li>
     <$ } else { $>
-    <li><a href="/auth/facebook">Login with Facebook</a></li>
+    <li class="right"><a href="/auth/facebook">Login with Facebook</a></li>
     <$ } $>
   </ul>
 </nav>
