@@ -420,6 +420,12 @@ select {
     max-width: 100%;
   }
 
+  .add-to-list {
+    p {
+      color: $red;
+    }
+  }
+
   .comic-info {
     padding: 20px;
 

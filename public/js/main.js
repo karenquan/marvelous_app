@@ -130,7 +130,14 @@ var Main = (function() {
           url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + selectedListId + '/comics',
           data: data
       }).done(function() {
-        console.log('ADDED YO');
+        var $successElement, $addToListContainer, comicTitle, listTitle, $successText;
+        $addToListContainer = $('.add-to-list');
+        comicTitle = $('.comic-info h1').html();
+        listTitle = $('#userLists').find(":selected").val();
+        $successText = 'You added ' + comicTitle + ' to your ' + listTitle + ' list!';
+        var $successElement = $('<p />', { text: $successText });
+        $addToListContainer.append($successElement);
+        $successElement.fadeIn("slow").delay(5000).fadeOut('slow');
       });
     });
 

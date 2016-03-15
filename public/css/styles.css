@@ -289,6 +289,9 @@ select {
 .comic-show img {
   max-width: 100%; }
 
+.comic-show .add-to-list p {
+  color: #B6050F; }
+
 .comic-show .comic-info {
   padding: 20px; }
   .comic-show .comic-info h1, .comic-show .comic-info h2 {
