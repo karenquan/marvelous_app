@@ -37,7 +37,7 @@ Character.remove({}, function(err) {
     addCharacter(character);
   });
   console.log('Seeded ' + characters.length + ' characters.');
-  // mongoose.connection.close();
+  mongoose.connection.close();
 });
 
 console.log(`Current directory: ${process.cwd()}`);
@@ -50,13 +50,6 @@ function addCharacter(character) {
   if(!character.thumbnail.match(/image_not_available/)) {
     _character.thumbnail = character.thumbnail;
   }
-  // if(!character.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-  //   _character.thumbnail = character.thumbnail;
-  // } else {
-  //   console.log(character.name);
-  //   console.log(character.thumbnail);
-  //   console.log(_character.thumbnail);
-  // }
   allCharacters.push(_character);
   _character.save(function(newCharacter) {
   });
