@@ -63,6 +63,10 @@ a {
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
   transition: 0.5s; }
+  a img {
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    transition: 0.5s; }
 
 h1, h2, h3, h4, h5 {
   margin: 0;
@@ -87,7 +91,25 @@ span {
       background-color: #96030a; }
 
 button {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  transition: 0.5s;
+  color: #FFF;
+  background-color: #B6050F;
+  border: 1px solid #B6050F;
   outline: none; }
+  button:hover {
+    background-color: #96030a;
+    border: 1px solid #96030a;
+    cursor: pointer; }
+  button.disabled {
+    border: 1px solid #CCC;
+    background-color: #CCC; }
+    button.disabled:hover {
+      cursor: default; }
 
 input {
   font-family: 'Economica', arial, sans-serif;
@@ -100,6 +122,8 @@ input {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
+  input:focus {
+    border-bottom: 1px solid #B6050F; }
 
 img {
   max-width: 200px;
@@ -117,7 +141,12 @@ select {
 #characters {
   padding: 30px 20px 20px; }
   #characters h1 {
+    font-size: 40px;
     text-transform: uppercase; }
+  #characters h2 {
+    font-family: 'Economica', arial, sans-serif;
+    font-size: 30px;
+    margin: 0 0 20px 0; }
   #characters a {
     color: #333;
     display: block;
@@ -169,34 +198,15 @@ select {
     .home .search button {
       display: block;
       width: 100%;
-      background-color: #B6050F;
-      border: 1px solid #B6050F;
       padding: 20px;
       margin: 20px auto;
-      font-size: 20px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      color: #FFF;
-      -webkit-transition: 0.5s;
-      -moz-transition: 0.5s;
-      transition: 0.5s; }
-      .home .search button:hover {
-        background-color: #96030a;
-        cursor: pointer; }
-      .home .search button.disabled {
-        border: 1px solid #CCC;
-        background-color: #CCC; }
-        .home .search button.disabled:hover {
-          cursor: default; }
+      font-size: 20px; }
     .home .search input {
       font-family: 'Fjalla One';
       background: #EEF4F4;
       width: 100%;
       font-size: 20px;
       text-align: center; }
-      .home .search input:focus {
-        border-bottom: 1px solid #B6050F; }
   .home .viewAllCharacters {
     background-color: #000; }
     .home .viewAllCharacters a {
@@ -293,7 +303,8 @@ select {
   .comic-show .comic-info div {
     margin: 10px 0; }
   .comic-show .comic-info span.button {
-    font-size: 20px; }
+    font-size: 20px;
+    margin: 15px; }
   .comic-show .comic-info .characters h3 {
     margin: 10px 0 0 0; }
   .comic-show .comic-info .creators h3 {
@@ -305,30 +316,53 @@ select {
   font-size: 50px; }
 
 .user-show h2 {
-  color: #B6050F; }
+  color: #B6050F;
+  font-size: 35px;
+  margin: 0 0 20px 0; }
 
-.user-show .comic-lists .list {
-  padding: 30px 0;
-  width: 100%;
-  overflow-x: scroll;
-  white-space: nowrap; }
-  .user-show .comic-lists .list:nth-child(2n) {
-    background-color: #000; }
-    .user-show .comic-lists .list:nth-child(2n) h3 {
-      color: #FFF; }
-  .user-show .comic-lists .list h3 {
-    font-size: 30px;
-    text-transform: uppercase;
-    padding: 0 30px 30px 30px; }
+.user-show input {
+  width: 250px;
+  text-align: center;
+  font-size: 20px; }
 
-.user-show .comic-lists .comic {
-  display: inline-block;
-  max-width: 200px;
-  width: 100%;
-  white-space: normal; }
-  .user-show .comic-lists .comic span.button {
+.user-show button {
+  font-family: 'Fjalla One', sans-serif;
+  padding: 15px 30px; }
+
+.user-show .comic-lists {
+  margin: 30px 0 0 0;
+  border-top: 1px solid #000; }
+  .user-show .comic-lists a {
+    display: inline-block;
+    margin: 10px 0;
+    color: #B6050F; }
+    .user-show .comic-lists a:hover {
+      color: #96030a; }
+  .user-show .comic-lists .list {
+    padding: 30px 0;
     width: 100%;
-    margin: 0; }
+    overflow-x: scroll;
+    white-space: nowrap; }
+    .user-show .comic-lists .list:nth-child(2n) {
+      background-color: #000; }
+      .user-show .comic-lists .list:nth-child(2n) h3 {
+        color: #FFF; }
+      .user-show .comic-lists .list:nth-child(2n) input {
+        background-color: #000;
+        border-bottom: 1px solid #FFF;
+        color: #FFF; }
+    .user-show .comic-lists .list h3 {
+      font-size: 30px;
+      text-transform: uppercase;
+      padding: 0 30px; }
+  .user-show .comic-lists .comic {
+    display: inline-block;
+    max-width: 200px;
+    width: 100%;
+    white-space: normal; }
+    .user-show .comic-lists .comic span.button {
+      width: 100%;
+      margin: 0; }
 
 .disabled {
   background-color: #333; }
