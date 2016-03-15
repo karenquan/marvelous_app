@@ -129,6 +129,8 @@ var Main = (function() {
           method: 'POST',
           url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + selectedListId + '/comics',
           data: data
+      }).done(function() {
+        console.log('ADDED YO');
       });
     });
 
