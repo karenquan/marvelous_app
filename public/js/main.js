@@ -9,8 +9,13 @@ var Main = (function() {
       $userListOptionTemplate,
       renderedUserListOption,
       $searchButton = $('#searchButton'),
+      $addListButton = $('#addListButton'),
+      $addListInput = $('#addListInput'),
+      $updateListTitleInput = $('#updateListTitleInput'),
+      $updateListTitleButton = $('#updateListTitleButton'),
       offset,
-      allCharacters = [];
+      allCharacters = [],
+      CURRENT_USER_FB_ID = 1; //UPDATE THIS WITH DYNAMIC FB ID
 
   var MARVEL_BASE_ENDPOINT = 'http://gateway.marvel.com:80/v1/public/',
       MARVEL_PUBLIC_KEY = 'c3efb289a52afc7877c1772359aad41a';
@@ -30,6 +35,9 @@ var Main = (function() {
     loadUsersLists();
 
     // EVENT HANDLERS ----------------------------------------------------------
+
+    // HOME PAGE SEARCH INPUT
+    disableButtonUntilInput($('#characterNameInput'), $searchButton);
     $searchButton.on('click', function(e) {
       $('body.home').css('overflow', 'visible');
       $characterSearchResultsContainer.removeClass('hide');
@@ -41,17 +49,25 @@ var Main = (function() {
       }); //scroll top animation to display search results
     });
 
-    $('#characterNameInput').val('').focus();
-    $searchButton.attr('disabled', true); //disabled by default
-    //only allow search button to be clicked when user has input text
-    $('#characterNameInput').on('keypress keyup', function(e) {
-      if($('#characterNameInput').val().length > 0) {
-        $searchButton.removeClass('disabled');
-        $searchButton.attr('disabled', false);
-      } else {
-        $searchButton.addClass('disabled');
-        $searchButton.attr('disabled', true);
-      }
+    // USER PAGE ADD LIST
+    disableButtonUntilInput($addListInput, $addListButton);
+    $("#addListButton").on('click', function(e) {
+      var listName = $('#addListInput').val();
+      var data = {
+        facebookId: CURRENT_USER_FB_ID,
+        listName: listName
+      };
+      $.ajax({
+        method: 'POST',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists',
+        data: data
+      }).then(function(list) {
+        disableButtonUntilInput($addListInput, $addListButton);
+        var $newList = $('<div />', { 'class': 'list' }); //visually add new list section
+          var $title = $('<h3 />', { text: listName });
+        $newList.append($title);
+        $('.comic-lists').append($newList);
+      });
     });
 
     // ADD LOADING GIF
@@ -59,56 +75,28 @@ var Main = (function() {
       $('body').addClass('loading');
     });
 
-    // ADD COMIC TO LIST
-    $('#addComicToList').on('click', function(e) {
-        //var userFacebookId = CURRENT_USER_FB_ID;
-        var userFacebookId = 1; //TEST
-        var selectedListId = $('#userLists').find(":selected").data('id');
-        var data = {
-          id: $('.comic-info').data('id'),
-          title: $('.comic-title').html(),
-          description: $('.comic-description').length ? $('.comic-description').html() : "",
-          thumbnail: $('img.comic-thumbnail').attr('src'),
-          facebookId: userFacebookId,
-          listId: selectedListId
-        };
-        // console.log(JSON.stringify(comic));
-        $.ajax({
-            method: 'POST',
-            url: '/users/' + userFacebookId + '/lists/' + selectedListId + '/comics',
-            data: data
-        }).then(function(comic) {
-            console.log('added comic? plz?');
-            console.log(comic);
-        });
-    });
-
-    //DELETE COMIC FROM LIST
-    $('.comic-lists').delegate('#removeComic', 'click', function(e) {
-      e.preventDefault();
-      var comic = $(this).closest('div')[0];
-      console.log(comic);
-    });
-
     // AJAX --------------------------------------------------------------------
+
+    // SEARCH FOR CHARACTER BY NAME (HOME PAGE)
     function searchForCharactersByName(name) {
-        $.ajax({
-          url: '/characters/search/' + encodeURIComponent(name),
-          method: 'GET',
-          dataType: 'json'
-        }).then(function(characters) {
-          $('.result-count').html(characters.length);
-          $('#characterSearchResults .character-name').html(name);
-          characters.forEach(function(character) {
-            $characterSearchResults.append(renderCharacter(character));
-          });
-          $('.character-item h2, .character-item img').on('click', function() {
-            $('body').addClass('loading');
-          }); //add loading gif while next page loads
-        }, logErrors);
+      $.ajax({
+        url: '/characters/search/' + encodeURIComponent(name),
+        method: 'GET',
+        dataType: 'json'
+      }).then(function(characters) {
+        $('.result-count').html(characters.length);
+        $('#characterSearchResults .character-name').html(name);
+        characters.forEach(function(character) {
+          $characterSearchResults.append(renderCharacter(character));
+        });
+        $('.character-item h2, .character-item img').on('click', function() {
+          $('body').addClass('loading');
+        }); //add loading gif while next page loads
+      }, logErrors);
     }
 
-    function loadUsersLists() { //on comic show page
+    // LOAD USER LISTS DROPDOWN ON COMIC SHOW PAGE
+    function loadUsersLists() {
       $.ajax({
           url: '/users/1/lists', //need to grab dynamic facebookId
           method: 'GET'
@@ -123,9 +111,114 @@ var Main = (function() {
         }
       }, logErrors);
     }
+
+    // ADD COMIC TO LIST
+    $('#addComicToList').on('click', function(e) {
+      var selectedListId = $('#userLists').find(":selected").data('id');
+      var data = {
+        id: $('.comic-info').data('id'),
+        title: $('.comic-title').html(),
+        description: $('.comic-description').length ? $('.comic-description').html() : "",
+        thumbnail: $('img.comic-thumbnail').attr('src'),
+        facebookId: CURRENT_USER_FB_ID,
+        listId: selectedListId
+      };
+      // console.log(JSON.stringify(comic));
+      $.ajax({
+          method: 'POST',
+          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + selectedListId + '/comics',
+          data: data
+      }).then(function(comic) {
+          console.log('added comic');
+      });
+    });
+
+    //DELETE COMIC FROM LIST
+    $('.comic-lists').delegate('#removeComic', 'click', function(e) {
+      var comicContainer = $(this).parents('.comic')[0];
+      var listId = $(this).parents('.list').data('id');
+      var comicId = $($(this).closest('div')[0]).data('id');
+      var data = {
+        facebookId: CURRENT_USER_FB_ID,
+        listId: listId,
+        comicId: $($(this).closest('div')[0]).data('id')
+      };
+      $.ajax({
+        method: 'DELETE',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
+        data: data
+      }).then(function(comic) {
+        console.log('deleted comic');
+        comicContainer.remove()//remove comic from dom
+      });
+    });
+
+    // DELETE A LIST
+    $('.list').delegate('.deleteList', 'click', function(e) {
+      e.preventDefault();
+      var listContainer = $(this).parents('.list');
+      var listId = $(listContainer).data('id');
+      var data = {
+        facebookId: CURRENT_USER_FB_ID,
+        listId: listId
+      };
+      $.ajax({
+        method: 'DELETE',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
+        data: data
+      }).then(function(list) {
+        listContainer.remove();//remove list from dom
+      });
+    });
+
+    // UPDATE LIST TITLE
+    $('.user-actions').delegate('.updateList', 'click', function(e) {
+      e.preventDefault();
+      var $inputContainer = $(this).siblings('.user-input');
+      var $updateSubmitButton = $(this).siblings('.user-input').children('.updateListTitleButton');
+      var $listTitle = $(this).parents('.list').find('h3');
+      var listId = $(this).parents('.list').data('id');
+
+      $inputContainer.removeClass('hide');
+
+      $updateSubmitButton.on('click', function() {
+        var $userTitle = $(this).siblings('.updateListTitleInput').val();
+        if ($userTitle.length > 0) { //only submit if input is not empty
+          var data = {
+            facebookId: CURRENT_USER_FB_ID,
+            listId: listId,
+            listTitle: $userTitle
+          };
+
+          $.ajax({
+            method: 'PUT',
+            url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
+            data: data
+          }).then(function(error, title) {
+            $inputContainer.addClass('hide'); // hide update input
+            $listTitle.html($userTitle); //update list title in dom
+          });
+        }
+      });
+    });
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
+  function disableButtonUntilInput(input, button) {
+    input.val('').focus();
+    button.attr('disabled', true); //disabled by default
+    //only allow search button to be clicked when user has input text
+    input.on('keypress keyup', function(e) {
+      if(input.val().length > 0) {
+        button.removeClass('disabled');
+        button.attr('disabled', false);
+      } else {
+        button.addClass('disabled');
+        button.attr('disabled', true);
+      }
+    });
+  }
+
   function renderCharacter(character) {
     return renderedCharacterTemplate = renderCharacterTemplate(character);
   } //END renderCharacter()
@@ -155,53 +248,23 @@ var Main = (function() {
 
     getCharacters();
 
-    function getCharacters() { // GET ALL CHARACTERS SINCE API MAX RETURN IS 100 RESULTS
+    function getCharacters() { // MARVEL API RESULT LIMIT IS 100
+      var offset = 1100; //update offset with whatever offset you want
 
-      $.when(
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=100&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=200&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=300&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=400&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=500&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=600&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=700&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=800&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=900&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1000&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1100&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1200&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1300&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1400&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1500&apikey=' + MARVEL_PUBLIC_KEY)
-        )
-      .done(function(one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen){
-        //add returned characters to allCharacters array
-        parseAllCharactersResults(one);
-        parseAllCharactersResults(two);
-        parseAllCharactersResults(three);
-        parseAllCharactersResults(four);
-        parseAllCharactersResults(five);
-        parseAllCharactersResults(six);
-        parseAllCharactersResults(seven);
-        parseAllCharactersResults(eight);
-        parseAllCharactersResults(nine);
-        parseAllCharactersResults(ten);
-        parseAllCharactersResults(eleven);
-        parseAllCharactersResults(twelve);
-        parseAllCharactersResults(thirteen);
-        parseAllCharactersResults(fourteen);
-        parseAllCharactersResults(fifteen);
-
-        console.log('total num of characters: ' + allCharacters.length);
-
-        //SEED DATABASE WITH ALL CHARACTERS
-        allCharacters.forEach(function(character, i) {
-          seedCharacter(character);
-        });
-      })
-      .fail(function(error) {
-        console.log(error);
+      $.ajax({
+        method: 'GET',
+        url: MARVEL_BASE_ENDPOINT + 'characters?limit=100&offset=' + offset + '&apikey=' + MARVEL_PUBLIC_KEY
+      }).then(function(characters) {
+          var _characters = characters.data.results;
+          _characters.forEach(function(character) {
+            if (character.comics.available > 0) { //only add characters with available comics
+              var _character = parseCharacter(character);
+              renderCharacter(_character);
+              allCharacters.push(_character);
+            }
+          });
+          console.log(JSON.stringify(allCharacters));
+          console.log(allCharacters.length);
       });
     }
 
