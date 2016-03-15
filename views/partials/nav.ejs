@@ -3,5 +3,10 @@
     <li><a href="/">marvel comics</a></li>
     <li><a href="/">search</a></li>
     <li><a href="/characters">characters</a></li>
+    <$ if (user) { $>
+    <li><a href="/logout"><$= user.name $> |Logout</a></li>
+    <$ } else { $>
+    <li><a href="/auth/facebook">Login with Facebook</a></li>
+    <$ } $>
   </ul>
 </nav>

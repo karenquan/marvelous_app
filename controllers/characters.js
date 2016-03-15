@@ -11,7 +11,7 @@ module.exports = {
 
 function index(req, res, next) {
   Character.find({}, function(error, characters) {
-    res.render('characters/index', { characters: characters });
+    res.render('characters/index', { characters: characters, user: req.user });
   });
 }
 
@@ -62,7 +62,7 @@ function show(req, res, next) {
         });
 
         //add object of comics to view
-        res.render('characters/show', { character: character, comics: parsedComics });
+        res.render('characters/show', { character: character, comics: parsedComics, user: req.user });
       }
     });
   });

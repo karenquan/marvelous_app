@@ -14,8 +14,8 @@ var listSchema = new mongoose.Schema({
 });
 
 var userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  facebookId: { type: Number, required: true },
+  name: String,
+  facebookId: String,
   lists: [listSchema]
 });
 

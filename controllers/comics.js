@@ -24,7 +24,7 @@ function show(req, res, next) {
         var comic = JSON.parse(response.body).data.results[0];
 
         //add object of comics to view
-        res.render('comics/show', { comic: comic });
+        res.render('comics/show', { comic: comic, user: req.user });
       }
     });
 }
