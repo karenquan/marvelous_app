@@ -248,53 +248,23 @@ var Main = (function() {
 
     getCharacters();
 
-    function getCharacters() { // GET ALL CHARACTERS SINCE API MAX RETURN IS 100 RESULTS
+    function getCharacters() { // MARVEL API RESULT LIMIT IS 100
+      var offset = 1100; //update offset with whatever offset you want
 
-      $.when(
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=100&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=200&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=300&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=400&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=500&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=600&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=700&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=800&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=900&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1000&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1100&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1200&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1300&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1400&apikey=' + MARVEL_PUBLIC_KEY),
-        $.ajax(MARVEL_BASE_ENDPOINT + 'characters?' + 'limit=100&offset=1500&apikey=' + MARVEL_PUBLIC_KEY)
-        )
-      .done(function(one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen){
-        //add returned characters to allCharacters array
-        parseAllCharactersResults(one);
-        parseAllCharactersResults(two);
-        parseAllCharactersResults(three);
-        parseAllCharactersResults(four);
-        parseAllCharactersResults(five);
-        parseAllCharactersResults(six);
-        parseAllCharactersResults(seven);
-        parseAllCharactersResults(eight);
-        parseAllCharactersResults(nine);
-        parseAllCharactersResults(ten);
-        parseAllCharactersResults(eleven);
-        parseAllCharactersResults(twelve);
-        parseAllCharactersResults(thirteen);
-        parseAllCharactersResults(fourteen);
-        parseAllCharactersResults(fifteen);
-
-        console.log('total num of characters: ' + allCharacters.length);
-
-        //SEED DATABASE WITH ALL CHARACTERS
-        allCharacters.forEach(function(character, i) {
-          seedCharacter(character);
-        });
-      })
-      .fail(function(error) {
-        console.log(error);
+      $.ajax({
+        method: 'GET',
+        url: MARVEL_BASE_ENDPOINT + 'characters?limit=100&offset=' + offset + '&apikey=' + MARVEL_PUBLIC_KEY
+      }).then(function(characters) {
+          var _characters = characters.data.results;
+          _characters.forEach(function(character) {
+            if (character.comics.available > 0) { //only add characters with available comics
+              var _character = parseCharacter(character);
+              renderCharacter(_character);
+              allCharacters.push(_character);
+            }
+          });
+          console.log(JSON.stringify(allCharacters));
+          console.log(allCharacters.length);
       });
     }
 
