@@ -11,7 +11,7 @@ module.exports = {
 
 function index(req, res, next) {
   Character.find({}, function(error, characters) {
-    res.render('characters/index', { characters: characters });
+    res.render('characters/index', { characters: characters, user: req.user });
   });
 }
 
@@ -38,13 +38,13 @@ function show(req, res, next) {
     var ts = Date().toString();
 
     // --- NEED TO UPDATE & HIDE KEYS IN .ENV
-    // var hash = md5(ts + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY);
-    var hash = md5(ts + '5dd8925717ff2e9c19813e80ee8b00448736fda0c3efb289a52afc7877c1772359aad41a');
+    var hash = md5(ts + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY);
+    // var hash = md5(ts + '5dd8925717ff2e9c19813e80ee8b00448736fda0c3efb289a52afc7877c1772359aad41a');
 
     //GRAB COMICS
     request({
       method: 'GET',
-      uri: 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey=c3efb289a52afc7877c1772359aad41a&hash=' + hash
+      uri: 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey='+process.env.MARVEL_PUBLIC_KEY+'&hash=' + hash
     }, function (error, response, body) {
       if (error) console.log(error);
 
@@ -62,7 +62,7 @@ function show(req, res, next) {
         });
 
         //add object of comics to view
-        res.render('characters/show', { character: character, comics: parsedComics });
+        res.render('characters/show', { character: character, comics: parsedComics, user: req.user });
       }
     });
   });

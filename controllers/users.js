@@ -1,10 +1,8 @@
 var User = require("../models/user");
-
 module.exports = {
   index: index,
   show:  show
 };
-
 function index(req, res, next) {
   // User.find({}, function(err, users) {
   //   if (err) {
@@ -14,7 +12,6 @@ function index(req, res, next) {
   //   }
   // });
 }
-
 function show(req, res, next) {
   User.find({facebookId: req.params.id}, function(err, user) {
     var _user = user[0];
