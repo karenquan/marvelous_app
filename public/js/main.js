@@ -55,13 +55,20 @@ var Main = (function() {
     });
 
     // ADD LOADING GIF
-    $('#characters a, .comic').on('click', function(e) {
+    $('#characters a, .comic a').on('click', function(e) {
       $('body').addClass('loading');
     });
 
     // ADD COMIC TO LIST
     $('#addComicToList').on('click', function() {
         console.log('add!!!!');
+    });
+
+    //DELETE COMIC FROM LIST
+    $('.comic-lists').delegate('#removeComic', 'click', function(e) {
+      e.preventDefault();
+      var comic = $(this).closest('div')[0];
+      console.log(comic);
     });
 
     // AJAX --------------------------------------------------------------------
