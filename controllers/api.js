@@ -29,23 +29,21 @@ function addComicToList(req, res, next) {
   User.find({ facebookId: data.facebookId }, function(error, user) {
     var _user = user[0];
     var list = _user.lists.id(data.listId);
-    console.log(list);
-    console.log();
     list.comics.push({
       id: data.id,
       title: data.title,
       description: data.description,
       thumbnail: data.thumbnail
     });
-    console.log(list);
-    console.log(user);
-    _user.save(function(error) {
+    // console.log(list);
+    _user .save(function(error) {
       if (error) {
         console.log(error);
         next(error);
       }
       else {
         console.log('added comic!');
+        res.send();
       }
     });
   });
