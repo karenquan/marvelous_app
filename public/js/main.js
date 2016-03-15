@@ -148,7 +148,7 @@ var Main = (function() {
 
     //DELETE COMIC FROM LIST
     $('.comic-lists').delegate('#removeComic', 'click', function(e) {
-      var comicContainer = $(this).parents('.list')[0];
+      var comicContainer = $(this).parents('.comic')[0];
       var listId = $(this).parents('.list').data('id');
       var comicId = $($(this).closest('div')[0]).data('id');
       var data = {
