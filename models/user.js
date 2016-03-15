@@ -5,7 +5,7 @@ var comicSchema = new mongoose.Schema({
   id: { type: Number, required: true },
   title: { type: String, required: true },
   description: { type: String, default: "" },
-  thumbnail: { type: String, default: "" }
+  thumbnail: { type: String, default: "/images/notfound2.gif" }
 });
 
 var listSchema = new mongoose.Schema({

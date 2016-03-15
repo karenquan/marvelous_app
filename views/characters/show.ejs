@@ -13,15 +13,17 @@
           <p><$= character.description $></p>
         <$ } $>
       </div>
-      <$ if (character.thumbnail.length > 0) { $>
-        <img src="<$= character.thumbnail $>" alt="<$= character.name $>" />
-      <$ } $>
+      <img src="<$= character.thumbnail $>" alt="<$= character.name $>" />
     </article><!-- comment to remove extra space
   --><article class="comic-container">
       <$ comics.forEach(function(comic) { $>
         <div class="comic">
-          <a href="/comics/<$= comic.id $>"><img src="<$= comic.thumbnail $>" alt="<$= comic.title $>"></a>
-          <!-- <h3><a href="/comics/<$= comic.id $>"><$= comic.title $></a></h3> -->
+        <!-- comic thumbnails are not stored in the database, so set path to custom image -->
+          <$ if(comic.thumbnail.match(/image_not_available/)) { $>
+            <a href="/comics/<$= comic.id $>"><img src="../../images/notfound.gif" alt="<$= comic.title $>"></a>
+          <$ } else { $>
+             <a href="/comics/<$= comic.id $>"><img src="<$= comic.thumbnail $>" alt="<$= comic.title $>"></a>
+          <$ } $>
         </div>
       <$ }); $>
     </article>

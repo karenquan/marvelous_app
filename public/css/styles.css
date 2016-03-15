@@ -11,7 +11,7 @@ body {
   position: relative; }
   body.loading:after {
     font-family: 'Fjalla One';
-    content: 'Loading...';
+    content: '';
     position: fixed;
     top: 0;
     right: 0;
@@ -329,12 +329,14 @@ select {
   font-family: 'Fjalla One', sans-serif;
   padding: 15px 30px; }
 
+.user-show .user-actions {
+  margin: 5px 0 20px 0; }
+
 .user-show .comic-lists {
   margin: 30px 0 0 0;
   border-top: 1px solid #000; }
   .user-show .comic-lists a {
     display: inline-block;
-    margin: 10px 0;
     color: #B6050F; }
     .user-show .comic-lists a:hover {
       color: #96030a; }
