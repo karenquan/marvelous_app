@@ -313,7 +313,7 @@ select {
 .user-show input {
   width: 250px;
   text-align: center;
-  font-size: 15px; }
+  font-size: 20px; }
 
 .user-show button {
   font-family: 'Fjalla One', sans-serif;
@@ -321,9 +321,9 @@ select {
 
 .user-show .comic-lists {
   margin: 30px 0 0 0;
-  border-top: 1px solid #B6050F; }
+  border-top: 1px solid #000; }
   .user-show .comic-lists a {
-    display: block;
+    display: inline-block;
     margin: 10px 0;
     color: #B6050F; }
     .user-show .comic-lists a:hover {

@@ -5,6 +5,7 @@ module.exports = {
   destroyList: destroyList,
   addComicToList: addComicToList,
   destroyComic: destroyComic,
+  updateListTitle: updateListTitle,
   getUserLists: getUserLists
 };
 
@@ -91,6 +92,26 @@ function destroyComic(req, res, next) {
       }
     });
     console.log(list.comics.id(data.comicId));
+  });
+}
+
+function updateListTitle(req, res, next) {
+  var data = req.body;
+  // console.log(data);
+  User.find({ facebookId: data.facebookId }, function(error, user) {
+    var _user = user[0];
+    var list = _user.lists.id(data.listId);
+    list.title = data.listTitle;
+
+    _user.save(function(error) {
+      if(error) {
+        console.log(error);
+        next(error);
+      } else {
+        console.log('removed comic!');
+        res.send();
+      }
+    });
   });
 }
 

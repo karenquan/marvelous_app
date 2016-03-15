@@ -11,6 +11,8 @@ var Main = (function() {
       $searchButton = $('#searchButton'),
       $addListButton = $('#addListButton'),
       $addListInput = $('#addListInput'),
+      $updateListTitleInput = $('#updateListTitleInput'),
+      $updateListTitleButton = $('#updateListTitleButton'),
       offset,
       allCharacters = [],
       CURRENT_USER_FB_ID = 1; //UPDATE THIS WITH DYNAMIC FB ID
@@ -67,21 +69,6 @@ var Main = (function() {
         $('.comic-lists').append($newList);
       });
     });
-
-    function disableButtonUntilInput(input, button) {
-      input.val('').focus();
-      button.attr('disabled', true); //disabled by default
-      //only allow search button to be clicked when user has input text
-      input.on('keypress keyup', function(e) {
-        if(input.val().length > 0) {
-          button.removeClass('disabled');
-          button.attr('disabled', false);
-        } else {
-          button.addClass('disabled');
-          button.attr('disabled', true);
-        }
-      });
-    }
 
     // ADD LOADING GIF
     $('#characters a, .comic a').on('click', function(e) {
@@ -167,9 +154,9 @@ var Main = (function() {
     });
 
     // DELETE A LIST
-    $('.list').delegate('#deleteList', 'click', function(e) {
+    $('.list').delegate('.deleteList', 'click', function(e) {
       e.preventDefault();
-      var listContainer = $(this).parent()[0];
+      var listContainer = $(this).parents('.list');
       var listId = $(listContainer).data('id');
       var data = {
         facebookId: CURRENT_USER_FB_ID,
@@ -182,12 +169,56 @@ var Main = (function() {
       }).then(function(list) {
         listContainer.remove();//remove list from dom
       });
-
     });
 
+    // UPDATE LIST TITLE
+    $('.user-actions').delegate('.updateList', 'click', function(e) {
+      e.preventDefault();
+      var $inputContainer = $(this).siblings('.user-input');
+      var $updateSubmitButton = $(this).siblings('.user-input').children('.updateListTitleButton');
+      var $listTitle = $(this).parents('.list').find('h3');
+      var listId = $(this).parents('.list').data('id');
+
+      $inputContainer.removeClass('hide');
+
+      $updateSubmitButton.on('click', function() {
+        var $userTitle = $(this).siblings('.updateListTitleInput').val();
+        if ($userTitle.length > 0) { //only submit if input is not empty
+          var data = {
+            facebookId: CURRENT_USER_FB_ID,
+            listId: listId,
+            listTitle: $userTitle
+          };
+
+          $.ajax({
+            method: 'PUT',
+            url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
+            data: data
+          }).then(function(error, title) {
+            $inputContainer.addClass('hide'); // hide update input
+            $listTitle.html($userTitle); //update list title in dom
+          });
+        }
+      });
+    });
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
+  function disableButtonUntilInput(input, button) {
+    input.val('').focus();
+    button.attr('disabled', true); //disabled by default
+    //only allow search button to be clicked when user has input text
+    input.on('keypress keyup', function(e) {
+      if(input.val().length > 0) {
+        button.removeClass('disabled');
+        button.attr('disabled', false);
+      } else {
+        button.addClass('disabled');
+        button.attr('disabled', true);
+      }
+    });
+  }
+
   function renderCharacter(character) {
     return renderedCharacterTemplate = renderCharacterTemplate(character);
   } //END renderCharacter()
