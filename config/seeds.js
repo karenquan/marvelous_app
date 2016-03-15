@@ -61,7 +61,7 @@ Character.remove({}, function(err) {
         console.log('iteration: ' + i);
         console.log(uri);
         console.log('status code: ' + response.statusCode);
-        console.log('response body: ' + response.body + "\n");
+        // console.log('response body: ' + response.body + "\n");
 
         request({
           method: 'GET',
