@@ -18,6 +18,7 @@
             <$ if (list.comics.length > 0) { $>
               <$ list.comics.forEach(function(comic) { $>
                 <img src="<$= comic.thumbnail $>" alt="<$= comic.thumbnail $>">
+
               <$ }); $> <!-- end loop through comics in a particular list -->
             <$ } $> <!-- end check if there are any comics in a particular list -->
           </div>
