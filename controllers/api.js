@@ -32,7 +32,21 @@ function createList(req, res, next) {
 }
 
 function destroyList(req, res, next) {
-
+  var data = req.body; //contains list & user info
+  User.find({ facebookId: data.facebookId }, function(error, user) {
+    var _user = user[0];
+    _user.lists.id(data.listId).remove();
+    _user.save(function(error) {
+      if (error) {
+        console.log(error);
+        next(error);
+      } else {
+        console.log('removed list!');
+        res.send();
+      }
+    });
+  });
+  console.log(data);
 }
 
 function addComicToList(req, res, next) {
@@ -72,7 +86,7 @@ function destroyComic(req, res, next) {
         console.log(error);
         next(error);
       } else {
-        console.log('removed comic');
+        console.log('removed comic!');
         res.send();
       }
     });

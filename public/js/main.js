@@ -69,7 +69,6 @@ var Main = (function() {
     });
 
     function disableButtonUntilInput(input, button) {
-      console.log(input);
       input.val('').focus();
       button.attr('disabled', true); //disabled by default
       //only allow search button to be clicked when user has input text
@@ -143,8 +142,7 @@ var Main = (function() {
           url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + selectedListId + '/comics',
           data: data
       }).then(function(comic) {
-          console.log('added comic? plz?');
-          console.log(comic);
+          console.log('added comic');
       });
     });
 
@@ -164,9 +162,29 @@ var Main = (function() {
         data: data
       }).then(function(comic) {
         console.log('deleted comic');
-        comicContainer.remove()//remove comic from view
+        comicContainer.remove()//remove comic from dom
       });
     });
+
+    // DELETE A LIST
+    $('.list').delegate('#deleteList', 'click', function(e) {
+      e.preventDefault();
+      var listContainer = $(this).parent()[0];
+      var listId = $(listContainer).data('id');
+      var data = {
+        facebookId: CURRENT_USER_FB_ID,
+        listId: listId
+      };
+      $.ajax({
+        method: 'DELETE',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
+        data: data
+      }).then(function(list) {
+        listContainer.remove();//remove list from dom
+      });
+
+    });
+
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
