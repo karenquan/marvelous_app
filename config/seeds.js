@@ -3,18 +3,19 @@ var User = require('../models/user');
 var Character = require('../models/character');
 var request = require('request');
 var md5 = require('md5');
-
+require('dotenv').load();
 // NEED TO GET PROCESS.ENV VARIABLES WORKING
 // var MARVEL_PUBLIC_KEY = process.env.MARVEL_PUBLIC_KEY,
-//     MARVEL_PRIVATE_KEY = process.env.MARVEL_PRIVATE_KEY;
+//     MARVEL_PRIVATE_KEY = process.env.MARVEL_PRIVATE_KEY,
 
 var MARVEL_BASE_ENDPOINT = 'http://gateway.marvel.com',
-    MARVEL_PUBLIC_KEY = 'c3efb289a52afc7877c1772359aad41a',
+    MARVEL_PUBLIC_KEY = process.env.MARVEL_PUBLIC_KEY,
+    MARVEL_PRIVATE_KEY = process.env.MARVEL_PRIVATE_KEY,
     allCharacters = [],
     offset,
     ts,
     hash,
-    uri = MARVEL_BASE_ENDPOINT + '/v1/public/characters?limit=100&offset=' + offset + '&ts=' + ts + '&apikey=' + MARVEL_PUBLIC_KEY + '&hash=';
+    uri = MARVEL_BASE_ENDPOINT + '/v1/public/characters?limit=100&offset=' + offset + '&ts=' + ts + '&apikey=' + process.env.MARVEL_PUBLIC_KEY + '&hash=';
 
 // POPULATE DATABASE WITH ALL CHARACTERS WITH AVAILABLE COMICS
 Character.remove({}, function(err) {
@@ -23,8 +24,8 @@ Character.remove({}, function(err) {
   // - make first initial call to grab the number of results
   ts = Date().toString();
   // --- NEED TO UPDATE & HIDE KEYS IN .ENV
-  // var hash = md5(ts + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY);
-  hash = md5(ts + '5dd8925717ff2e9c19813e80ee8b00448736fda0c3efb289a52afc7877c1772359aad41a');
+  hash = md5(ts + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY);
+  // hash = md5(ts + '5dd8925717ff2e9c19813e80ee8b00448736fda0c3efb289a52afc7877c1772359aad41a');
   offset = 0;
   uri = generateURI(0, ts, hash);
   console.log('first uri: ' + uri);
@@ -55,9 +56,8 @@ Character.remove({}, function(err) {
 
         offset = i * 100;
         ts = Date().toString() + i.toString();
-        hash = md5(ts + '5dd8925717ff2e9c19813e80ee8b00448736fda0c3efb289a52afc7877c1772359aad41a');
-        // uri = MARVEL_BASE_ENDPOINT + '/v1/public/characters?limit=100&offset=' + offset + '&ts=' + ts + '&apikey=' + MARVEL_PUBLIC_KEY + '&hash=' + hash;
-        uri = generateURI(offset, ts, hash);
+        uri = MARVEL_BASE_ENDPOINT + '/v1/public/characters?limit=100&offset=' + offset + '&ts=' + ts + '&apikey=' + MARVEL_PUBLIC_KEY + '&hash=' + hash;
+        // uri = generateURI(offset, ts, hash);
         console.log('iteration: ' + i);
         console.log(uri);
         console.log('status code: ' + response.statusCode);
@@ -101,7 +101,7 @@ Character.remove({}, function(err) {
 });
 
 function generateURI(offset, ts, hash) {
-  var uri = MARVEL_BASE_ENDPOINT + '/v1/public/characters?limit=100&offset=' + offset + '&ts=' + ts + '&apikey=' + MARVEL_PUBLIC_KEY + '&hash=' + hash;
+  uri = MARVEL_BASE_ENDPOINT + '/v1/public/characters?limit=100&offset=' + offset + '&ts=' + ts + '&apikey=' + MARVEL_PUBLIC_KEY + '&hash=' + hash;
 
   return uri;
 }
