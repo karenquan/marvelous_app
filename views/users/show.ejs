@@ -17,8 +17,10 @@
             <h3><$= list.title $></h3>
             <$ if (list.comics.length > 0) { $>
               <$ list.comics.forEach(function(comic) { $>
-                <img src="<$= comic.thumbnail $>" alt="<$= comic.thumbnail $>">
-
+                <div class="comic">
+                  <img src="<$= comic.thumbnail $>" alt="<$= comic.thumbnail $>">
+                  <span class="button" id="removeComic">REMOVE</span>
+                </div>
               <$ }); $> <!-- end loop through comics in a particular list -->
             <$ } $> <!-- end check if there are any comics in a particular list -->
           </div>

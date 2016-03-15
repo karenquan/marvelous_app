@@ -120,6 +120,8 @@ span {
 
   &.button {
     @include box-sizing(border-box);
+    font-family: 'Fjalla One', sans-serif;
+    background-color: $red;
     color: $white;
     padding: 15px 30px;
     display: inline-block;
@@ -127,6 +129,7 @@ span {
 
     &:hover {
       cursor: pointer;
+      background-color: $redhover;
     }
   }
 }
@@ -424,13 +427,7 @@ select {
     }
 
     span.button {
-      font-family: 'Fjalla One', sans-serif;
       font-size: 20px;
-      background-color: $red;
-
-      &:hover {
-        background-color: $redhover;
-      }
     }
 
     .characters {
@@ -443,6 +440,55 @@ select {
     .creators {
       h3 {
         margin: 15px 0 5px 0;
+      }
+    }
+  }
+}
+
+.user-show {
+
+  h1 {
+    text-transform: uppercase;
+    padding: 20px;
+    font-size: 50px;
+  }
+
+  h2 {
+    color: $red;
+  }
+
+  .comic-lists {
+
+    .list {
+      padding: 30px 0;
+      width: 100%;
+      overflow-x: scroll;
+      white-space: nowrap;
+
+      &:nth-child(2n) {
+        background-color: $black;
+
+        h3 {
+          color: $white;
+        }
+      }
+
+      h3 {
+        font-size: 30px;
+        text-transform: uppercase;
+        padding: 0 30px 30px 30px;
+      }
+    }
+
+    .comic {
+      display: inline-block;
+      max-width: 200px;
+      width: 100%;
+      white-space: normal;
+
+      & span.button {
+        width: 100%;
+        margin: 0;
       }
     }
   }
