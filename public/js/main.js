@@ -55,13 +55,39 @@ var Main = (function() {
     });
 
     // ADD LOADING GIF
-    $('#characters a, .comic').on('click', function(e) {
+    $('#characters a, .comic a').on('click', function(e) {
       $('body').addClass('loading');
     });
 
     // ADD COMIC TO LIST
-    $('#addComicToList').on('click', function() {
-        console.log('add!!!!');
+    $('#addComicToList').on('click', function(e) {
+        //var userFacebookId = CURRENT_USER_FB_ID;
+        var userFacebookId = 1; //TEST
+        var selectedListId = $('#userLists').find(":selected").data('id');
+        var data = {
+          id: $('.comic-info').data('id'),
+          title: $('.comic-title').html(),
+          description: $('.comic-description').length ? $('.comic-description').html() : "",
+          thumbnail: $('img.comic-thumbnail').attr('src'),
+          facebookId: userFacebookId,
+          listId: selectedListId
+        };
+        // console.log(JSON.stringify(comic));
+        $.ajax({
+            method: 'POST',
+            url: '/users/' + userFacebookId + '/lists/' + selectedListId + '/comics',
+            data: data
+        }).then(function(comic) {
+            console.log('added comic? plz?');
+            console.log(comic);
+        });
+    });
+
+    //DELETE COMIC FROM LIST
+    $('.comic-lists').delegate('#removeComic', 'click', function(e) {
+      e.preventDefault();
+      var comic = $(this).closest('div')[0];
+      console.log(comic);
     });
 
     // AJAX --------------------------------------------------------------------
@@ -89,6 +115,7 @@ var Main = (function() {
       }).then(function(lists) {
         if(lists.length > 0) { //if user has any lists, display them as a dropdown
           lists.forEach(function(list) {
+            // console.log(list._id);
             $('#userLists').append(renderUserListOptionTemplate(list));
           });
           //unhide list if they have any lists
@@ -192,7 +219,7 @@ var Main = (function() {
 
     function seedCharacter(character) {
       $.ajax({
-        url: '/characters/create',
+        url: '/characters',
         method: 'POST',
         dataType: 'json',
         data: character
