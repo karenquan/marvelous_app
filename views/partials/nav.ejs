@@ -4,7 +4,7 @@
     <li><a href="/">search</a></li>
     <li><a href="/characters">characters</a></li>
     <$ if (user) { $> <!-- Ask for tomorrow, maybe move this to the farther right of the nav bar? -->
-    <li><a href="/users/<$= user.facebookId $>"><$= user.name $></a></li>
+    <li><a data-fb-id="<$= user.facebookId $>" href="/users/<$= user.facebookId $>" class="userName"><$= user.name $></a></li>
     <li><a href="/logout">Logout</a></li>
     <$ } else { $>
     <li><a href="/auth/facebook">Login with Facebook</a></li>
