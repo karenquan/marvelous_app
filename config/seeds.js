@@ -117,28 +117,44 @@ function addCharacter(character) {
   });
 }
 
-// var users = [
-//   { // 0
-//     handle: "DunkLord",
-//     name:   "Bob Neverdunk"
-//   },
-//   { // 1
-//     handle: "MoneyMarge",
-//     name:   "Margaret Kalanchoe"
-//   }
-// ];
-
-// User.remove({}, function(err) {
-//   if (err) console.log(err);
-//   User.create(users, function(err, users) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log("Database seeded with " + users.length  + " users.");
-//       mongoose.connection.close(function(err) {
-//         if (err) console.log(err);
-//         process.exit(0);
-//       });
-//     }
-//   });
-// });
+User.remove({}, function() {
+    User.create({
+    name: 'Karen',
+    facebookId: 1,
+    lists: [{
+      title: 'My Favorite Comics',
+      comics: [{
+        id: 47813,
+        title: 'Inhuman (2014) #4',
+        description: 'ising star RYAN STEGMAN (SUPERIOR SPIDER-MAN, WOLVERINE) joins the INHUMAN team!\nMedusa and the Inhumans get a visitor to New Attilan- THOR!',
+        thumbnail: 'http://i.annihil.us/u/prod/marvel/i/mg/6/90/53f6382ee171d.jpg'
+      },
+      {
+        id: 46852,
+        title: 'Alpha (2013) #4',
+        description: 'Alpha and Thor team up to have a totally EXCELLENT adventure!',
+        thumbnail: 'http://i.annihil.us/u/prod/marvel/i/mg/9/60/56cb63a755b7a.jpg'
+      }]
+    },
+    {
+      title: 'Iron Man',
+      comics: [{
+        id: 36421,
+        title: 'Iron Man (2013) #258.4',
+        description: 'Micheline. Layton. Two voices that defined Iron Man come together to tell the untold story of his most dire hour - Armor Wars 2!',
+        thumbnail: 'http://i.annihil.us/u/prod/marvel/i/mg/d/30/5192646802b32.jpg'
+      },
+      {
+        id: 36420,
+        title: 'Iron Man (2013) #258.3',
+        description: 'Micheline. Layton.',
+        thumbnail: 'http://i.annihil.us/u/prod/marvel/i/mg/d/d0/5189540981b44.jpg'
+      }]
+    }],
+  }, function(err, user) {
+      user.save(function(error, newUser) {
+        if(error) console.log(error);
+        console.log('new user created!');
+      });
+  });
+});
