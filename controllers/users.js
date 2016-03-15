@@ -16,7 +16,7 @@ function index(req, res, next) {
 }
 
 function show(req, res, next) {
-  User.findOne({facebookId: req.params.id}, function(err, user) {
+  User.find({facebookId: req.params.id}, function(err, user) {
     var _user = user[0];
     if (err) {
       res.json({message: 'Could not find user because ' + err});
