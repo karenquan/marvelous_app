@@ -4,7 +4,7 @@
     <li><a href="/">search</a></li>
     <li><a href="/characters">characters</a></li>
     <$ if (user) { $>
-    <li><$= user.name $> <a href="/logout">|Logout</a></li>
+    <li><$= user.name $><a href="/logout">Logout</a></li>
     <$ } else { $>
     <li><a href="/auth/facebook">Login with Facebook</a></li>
     <$ } $>
