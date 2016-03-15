@@ -135,7 +135,26 @@ span {
 }
 
 button {
+  @include box-sizing(border-box);
+  @include transition(0.5s);
+  color: $white;
+  background-color: $red;
+  border: 1px solid $red;
   outline: none;
+
+  &:hover {
+    background-color: $redhover;
+    cursor: pointer;
+  }
+
+  &.disabled {
+    border: 1px solid $lightgray;
+    background-color: $lightgray;
+
+    &:hover {
+      cursor: default;
+    }
+  }
 }
 
 input {
@@ -147,6 +166,10 @@ input {
   border-bottom: 1px solid #444;
   margin: 0 10px 0 0;
   @include box-sizing(border-box);
+
+  &:focus {
+    border-bottom: 1px solid $red;
+  }
 }
 
 img {
@@ -245,28 +268,9 @@ select {
     button {
       display: block;
       width: 100%;
-      background-color: $red;
-      border: 1px solid $red;
       padding: 20px;
       margin: 20px auto;
       font-size: 20px;
-      @include box-sizing(border-box);
-      color: $white;
-      @include transition(0.5s);
-
-      &:hover {
-        background-color: $redhover;
-        cursor: pointer;
-      }
-
-      &.disabled {
-        border: 1px solid $lightgray;
-        background-color: $lightgray;
-
-        &:hover {
-          cursor: default;
-        }
-      }
     }
 
     input {
@@ -275,10 +279,6 @@ select {
       width: 100%;
       font-size: 20px;
       text-align: center;
-
-      &:focus {
-        border-bottom: 1px solid $red;
-      }
     }
   }
 
@@ -455,6 +455,18 @@ select {
 
   h2 {
     color: $red;
+    font-size: 35px;
+  }
+
+  input {
+    width: 250px;
+    text-align: center;
+    font-size: 15px;
+  }
+
+  button {
+    font-family: 'Fjalla One', sans-serif;
+    padding: 15px 30px;
   }
 
   .comic-lists {

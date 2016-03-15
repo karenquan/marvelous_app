@@ -9,6 +9,7 @@ var Main = (function() {
       $userListOptionTemplate,
       renderedUserListOption,
       $searchButton = $('#searchButton'),
+      $addListButton = $('#addListButton'),
       offset,
       allCharacters = [],
       CURRENT_USER_FB_ID = 1; //UPDATE THIS WITH DYNAMIC FB ID
@@ -31,6 +32,9 @@ var Main = (function() {
     loadUsersLists();
 
     // EVENT HANDLERS ----------------------------------------------------------
+
+    // HOME PAGE SEARCH INPUT
+    disableButtonUntilInput($('#characterNameInput'), $searchButton);
     $searchButton.on('click', function(e) {
       $('body.home').css('overflow', 'visible');
       $characterSearchResultsContainer.removeClass('hide');
@@ -42,23 +46,69 @@ var Main = (function() {
       }); //scroll top animation to display search results
     });
 
-    $('#characterNameInput').val('').focus();
-    $searchButton.attr('disabled', true); //disabled by default
-    //only allow search button to be clicked when user has input text
-    $('#characterNameInput').on('keypress keyup', function(e) {
-      if($('#characterNameInput').val().length > 0) {
-        $searchButton.removeClass('disabled');
-        $searchButton.attr('disabled', false);
-      } else {
-        $searchButton.addClass('disabled');
-        $searchButton.attr('disabled', true);
-      }
+    // USER PAGE ADD LIST
+    disableButtonUntilInput($('#addListInput'), $addListButton);
+    $("#addListButton").on('click', function(e) {
+      console.log('click');
     });
+
+    function disableButtonUntilInput(input, button) {
+      console.log(input);
+      input.val('').focus();
+      button.attr('disabled', true); //disabled by default
+      //only allow search button to be clicked when user has input text
+      input.on('keypress keyup', function(e) {
+        if(input.val().length > 0) {
+          button.removeClass('disabled');
+          button.attr('disabled', false);
+        } else {
+          button.addClass('disabled');
+          button.attr('disabled', true);
+        }
+      });
+    }
 
     // ADD LOADING GIF
     $('#characters a, .comic a').on('click', function(e) {
       $('body').addClass('loading');
     });
+
+    // AJAX --------------------------------------------------------------------
+
+    // SEARCH FOR CHARACTER BY NAME (HOME PAGE)
+    function searchForCharactersByName(name) {
+        $.ajax({
+          url: '/characters/search/' + encodeURIComponent(name),
+          method: 'GET',
+          dataType: 'json'
+        }).then(function(characters) {
+          $('.result-count').html(characters.length);
+          $('#characterSearchResults .character-name').html(name);
+          characters.forEach(function(character) {
+            $characterSearchResults.append(renderCharacter(character));
+          });
+          $('.character-item h2, .character-item img').on('click', function() {
+            $('body').addClass('loading');
+          }); //add loading gif while next page loads
+        }, logErrors);
+    }
+
+    // LOAD USER LISTS DROPDOWN ON COMIC SHOW PAGE
+    function loadUsersLists() {
+      $.ajax({
+          url: '/users/1/lists', //need to grab dynamic facebookId
+          method: 'GET'
+      }).then(function(lists) {
+        if(lists.length > 0) { //if user has any lists, display them as a dropdown
+          lists.forEach(function(list) {
+            // console.log(list._id);
+            $('#userLists').append(renderUserListOptionTemplate(list));
+          });
+          //unhide list if they have any lists
+          $('.add-to-list').removeClass('hide');
+        }
+      }, logErrors);
+    }
 
     // ADD COMIC TO LIST
     $('#addComicToList').on('click', function(e) {
@@ -101,40 +151,6 @@ var Main = (function() {
         comicContainer.remove()//remove comic from view
       });
     });
-
-    // AJAX --------------------------------------------------------------------
-    function searchForCharactersByName(name) {
-        $.ajax({
-          url: '/characters/search/' + encodeURIComponent(name),
-          method: 'GET',
-          dataType: 'json'
-        }).then(function(characters) {
-          $('.result-count').html(characters.length);
-          $('#characterSearchResults .character-name').html(name);
-          characters.forEach(function(character) {
-            $characterSearchResults.append(renderCharacter(character));
-          });
-          $('.character-item h2, .character-item img').on('click', function() {
-            $('body').addClass('loading');
-          }); //add loading gif while next page loads
-        }, logErrors);
-    }
-
-    function loadUsersLists() { //on comic show page
-      $.ajax({
-          url: '/users/1/lists', //need to grab dynamic facebookId
-          method: 'GET'
-      }).then(function(lists) {
-        if(lists.length > 0) { //if user has any lists, display them as a dropdown
-          lists.forEach(function(list) {
-            // console.log(list._id);
-            $('#userLists').append(renderUserListOptionTemplate(list));
-          });
-          //unhide list if they have any lists
-          $('.add-to-list').removeClass('hide');
-        }
-      }, logErrors);
-    }
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------

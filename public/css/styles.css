@@ -87,7 +87,24 @@ span {
       background-color: #96030a; }
 
 button {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  transition: 0.5s;
+  color: #FFF;
+  background-color: #B6050F;
+  border: 1px solid #B6050F;
   outline: none; }
+  button:hover {
+    background-color: #96030a;
+    cursor: pointer; }
+  button.disabled {
+    border: 1px solid #CCC;
+    background-color: #CCC; }
+    button.disabled:hover {
+      cursor: default; }
 
 input {
   font-family: 'Economica', arial, sans-serif;
@@ -100,6 +117,8 @@ input {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
+  input:focus {
+    border-bottom: 1px solid #B6050F; }
 
 img {
   max-width: 200px;
@@ -169,34 +188,15 @@ select {
     .home .search button {
       display: block;
       width: 100%;
-      background-color: #B6050F;
-      border: 1px solid #B6050F;
       padding: 20px;
       margin: 20px auto;
-      font-size: 20px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      color: #FFF;
-      -webkit-transition: 0.5s;
-      -moz-transition: 0.5s;
-      transition: 0.5s; }
-      .home .search button:hover {
-        background-color: #96030a;
-        cursor: pointer; }
-      .home .search button.disabled {
-        border: 1px solid #CCC;
-        background-color: #CCC; }
-        .home .search button.disabled:hover {
-          cursor: default; }
+      font-size: 20px; }
     .home .search input {
       font-family: 'Fjalla One';
       background: #EEF4F4;
       width: 100%;
       font-size: 20px;
       text-align: center; }
-      .home .search input:focus {
-        border-bottom: 1px solid #B6050F; }
   .home .viewAllCharacters {
     background-color: #000; }
     .home .viewAllCharacters a {
@@ -305,7 +305,17 @@ select {
   font-size: 50px; }
 
 .user-show h2 {
-  color: #B6050F; }
+  color: #B6050F;
+  font-size: 35px; }
+
+.user-show input {
+  width: 250px;
+  text-align: center;
+  font-size: 15px; }
+
+.user-show button {
+  font-family: 'Fjalla One', sans-serif;
+  padding: 15px 30px; }
 
 .user-show .comic-lists .list {
   padding: 30px 0;
