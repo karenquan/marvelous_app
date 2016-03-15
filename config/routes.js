@@ -15,7 +15,6 @@ var apiController = require('../controllers/api');
 router.get('/', pagesController.index);
 
 // users resource paths:
-router.get('/users',     usersController.index);
 router.get('/users/:id', usersController.show);
 
 // characters
