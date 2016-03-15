@@ -111,7 +111,6 @@ var Main = (function() {
           var $title = $('<h3 />', { text: listName });
         $newList.append($title);
         $('.comic-lists').append($newList);
-        // renderNewList(list);
       });
     });
 
@@ -218,16 +217,6 @@ var Main = (function() {
         button.attr('disabled', true);
       }
     });
-  }
-
-  // console.log(addNewListToDom());
-  function renderNewList(list) { //only for dynamic add of a new list
-    var $listTemplateString, renderListTemplate, renderedListTemplate;
-    $listTemplateString = $('#listTemplate').html();
-    renderListTemplate = _.template($listTemplateString);
-    renderedListTemplate = renderListTemplate(list);
-
-    $('.comic-lists').append(renderedListTemplate);
   }
 
   function renderCharacter(character) {

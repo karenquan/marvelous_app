@@ -37,20 +37,6 @@
       <$ } $> <!-- end check if user has any lists -->
     </div>
   </section>
-
-  <script type="text/template" id="listTemplate">
-    <div class="list" data-id="<%= _id %>">
-      <h3><%= title %></h3>
-      <div class="user-actions" class="hide">
-        <a href="#" class="deleteList">[ DELETE LIST ]</a> | <a href="#" class="updateList">[ UPDATE LIST TITLE ]</a><br />
-        <div class="user-input hide">
-          <input class="updateListTitleInput" type="text">
-          <button class="updateListTitleButton" class="disabled">UPDATE TITLE</button>
-        </div>
-      </div>
-    </div>
-  </script>
-
   <$- include('../partials/scripts') $>
 </body>
 </html>
