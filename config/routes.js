@@ -27,7 +27,7 @@ router.get('/comics/:id', comicsController.show);
 //api
 router.post('/users/:id/lists', apiController.createList);
 router.delete('/users/:id/lists/:id', apiController.destroyList);
-router.post('/users/:id/lists/:id/comics', apiController.createComic);
+router.post('/users/:id/lists/:id/comics', apiController.addComicToList);
 router.delete('/users/:id/lists/:id/comics/:id', apiController.destroyComic);
 router.get('/users/:id/lists', apiController.getUserLists);
 
