@@ -7,7 +7,12 @@
   <$- include('../partials/nav') $>
   <section class="container">
     <article class="comic-container">
-      <img class="comic-thumbnail" src="<$= comic.thumbnail.path $>.<$= comic.thumbnail.extension $>" alt="<$= comic.title $>">
+    <!-- comic thumbnails are not stored in the database, so set path to custom image -->
+      <$ if(comic.thumbnail.path + '.' + comic.thumbnail.extension.match(/image_not_available/)) { $>
+        <a href="/comics/<$= comic.id $>"><img class="comic-thumbnail" src="../../images/notfound2.gif" alt="<$= comic.title $>"></a>
+      <$ } else { $>
+        <a href="/comics/<$= comic.id $>"><img class="comic-thumbnail" src="<$= comic.thumbnail.path $>.<$= comic.thumbnail.extension $>" alt="<$= comic.title $>"></a>
+      <$ } $>
     </article><!-- comment to remove extra space
 --><article class="comic-info" data-id="<$= comic.id $>">
       <h1 class="comic-title"><$= comic.title $></h1>

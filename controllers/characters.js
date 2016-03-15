@@ -70,7 +70,6 @@ function show(req, res, next) {
 
 function characterSearch(req, res, next) {
   var characterName = decodeURI(req.params.name);
-  console.log('requested character: ' + characterName);
   Character.find({ name: { $regex: new RegExp("^" + characterName, "i") } }, function(error, characters) {
     if(error) next(error);
     else {

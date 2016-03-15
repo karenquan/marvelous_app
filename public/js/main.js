@@ -20,9 +20,6 @@ var Main = (function() {
   var MARVEL_BASE_ENDPOINT = 'http://gateway.marvel.com:80/v1/public/',
       MARVEL_PUBLIC_KEY = 'c3efb289a52afc7877c1772359aad41a';
 
-
-
-
 //TEMPLATE DATA ----------------------------------------------------------------
   $characters = $("#characters");
   $characterSearchResultsContainer = $('#characterSearchResults');
@@ -49,27 +46,6 @@ var Main = (function() {
       $('body').animate({
         scrollTop: resultsOffset.top - $('nav').height()
       }); //scroll top animation to display search results
-    });
-
-    // USER PAGE ADD LIST
-    disableButtonUntilInput($addListInput, $addListButton);
-    $("#addListButton").on('click', function(e) {
-      var listName = $('#addListInput').val();
-      var data = {
-        facebookId: CURRENT_USER_FB_ID,
-        listName: listName
-      };
-      $.ajax({
-        method: 'POST',
-        url: '/users/' + CURRENT_USER_FB_ID + '/lists',
-        data: data
-      }).then(function(list) {
-        disableButtonUntilInput($addListInput, $addListButton);
-        var $newList = $('<div />', { 'class': 'list' }); //visually add new list section
-          var $title = $('<h3 />', { text: listName });
-        $newList.append($title);
-        $('.comic-lists').append($newList);
-      });
     });
 
     // ADD LOADING GIF
@@ -116,6 +92,28 @@ var Main = (function() {
       }
     }
 
+    // ADD LIST
+    disableButtonUntilInput($addListInput, $addListButton);
+    $("#addListButton").on('click', function(e) {
+      var listName = $('#addListInput').val();
+      var data = {
+        facebookId: CURRENT_USER_FB_ID,
+        listName: listName
+      };
+      $.ajax({
+        method: 'POST',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists',
+        data: data
+      }).done(function(list) {
+        disableButtonUntilInput($addListInput, $addListButton);
+        // console.log(list);
+        var $newList = $('<div />', { 'class': 'list' }); //visually add new list section
+          var $title = $('<h3 />', { text: listName });
+        $newList.append($title);
+        $('.comic-lists').append($newList);
+      });
+    });
+
     // ADD COMIC TO LIST
     $('#addComicToList').on('click', function(e) {
       var selectedListId = $('#userLists').find(":selected").data('id');
@@ -127,13 +125,10 @@ var Main = (function() {
         facebookId: CURRENT_USER_FB_ID,
         listId: selectedListId
       };
-      // console.log(JSON.stringify(comic));
       $.ajax({
           method: 'POST',
           url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + selectedListId + '/comics',
           data: data
-      }).then(function(comic) {
-          console.log('added comic');
       });
     });
 
@@ -177,6 +172,7 @@ var Main = (function() {
 
     // UPDATE LIST TITLE
     $('.user-actions').delegate('.updateList', 'click', function(e) {
+      console.log('click');
       e.preventDefault();
       var $inputContainer = $(this).siblings('.user-input');
       var $updateSubmitButton = $(this).siblings('.user-input').children('.updateListTitleButton');

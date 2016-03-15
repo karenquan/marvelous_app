@@ -26,7 +26,8 @@ function createList(req, res, next) {
         next(error);
       } else {
         console.log('added list!');
-        res.send();
+        console.log(_user.lists[_user.lists.length - 1]);
+        res.send(_user.lists[_user.lists.length - 1]);
       }
     });
   });
