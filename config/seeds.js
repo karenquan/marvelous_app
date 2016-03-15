@@ -37,7 +37,7 @@ Character.remove({}, function(err) {
     addCharacter(character);
   });
   console.log('Seeded ' + characters.length + ' characters.');
-  mongoose.connection.close();
+  // mongoose.connection.close();
 });
 
 console.log(`Current directory: ${process.cwd()}`);
