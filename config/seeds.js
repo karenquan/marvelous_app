@@ -45,7 +45,7 @@ function addCharacter(character) {
   _character.name = character.name;
   _character.id = character.id;
   _character.description = character.description;
-  _character.thumbnail = character.thumbnail.path + '.' + character.thumbnail.extension;
+  _character.thumbnail = character.thumbnail;
   allCharacters.push(_character);
   _character.save(function(newCharacter) {
   });
