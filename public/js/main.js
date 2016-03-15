@@ -55,7 +55,7 @@ var Main = (function() {
     });
 
     // ADD LOADING GIF
-    $('#characters a, .comic').on('click', function(e) {
+    $('#characters a, .comic a').on('click', function(e) {
       $('body').addClass('loading');
     });
 
@@ -81,6 +81,13 @@ var Main = (function() {
             console.log('added comic? plz?');
             console.log(comic);
         });
+    });
+
+    //DELETE COMIC FROM LIST
+    $('.comic-lists').delegate('#removeComic', 'click', function(e) {
+      e.preventDefault();
+      var comic = $(this).closest('div')[0];
+      console.log(comic);
     });
 
     // AJAX --------------------------------------------------------------------
