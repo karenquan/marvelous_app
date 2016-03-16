@@ -86,6 +86,7 @@ nav {
       text-transform: uppercase;
       display: inline-block;
       font-size: 20px;
+      float: left;
 
       a {
         display: inline-block;
@@ -96,6 +97,10 @@ nav {
         &:hover {
           background-color: $redhover;
         }
+      }
+
+      &.right {
+        float: right;
       }
     }
   }
@@ -220,6 +225,37 @@ select {
     &:hover {
       opacity: 0.8;
     }
+  }
+
+  .letters {
+    a {
+      background: $white;
+      padding: 20px;
+      color: $black;
+      border: 1px solid;
+      text-transform: uppercase;
+      font-size: 20px;
+      font-weight: bold;
+      width: 30px;
+      display: inline-block;
+      text-decoration: none;
+
+      &:hover {
+        background-color: $redhover;
+        color: $white;
+      }
+    }
+  }
+}
+
+#backToTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  @include transition(0.5s);
+
+  &:hover {
+    opacity: 0.7;
   }
 }
 
@@ -366,6 +402,31 @@ select {
   }
 }
 
+.character-index {
+  text-align: center;
+
+  h2 {
+    text-transform: uppercase;
+    color: $red;
+  }
+
+  .results {
+    max-width: 600px;
+    margin: 0 auto;
+
+    span {
+      text-transform: uppercase;
+      color: $red;
+      font-size: 40px;
+      font-weight: bold;
+      border-bottom: 1px solid $red;
+      display: block;
+      margin: 20px auto;
+      width: 30px;
+    }
+  }
+}
+
 .character-show {
 
   article {
@@ -418,6 +479,12 @@ select {
 
   img {
     max-width: 100%;
+  }
+
+  .add-to-list {
+    p {
+      color: $red;
+    }
   }
 
   .comic-info {
@@ -545,6 +612,61 @@ select {
   }
 }
 
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 10000;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  align-items: center;
+
+  .content {
+    background: $white;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+
+    span {
+      margin: 20px 10px 0 10px;
+
+      &.no {
+        background: $black;
+
+        &:hover {
+          background: $gray;
+        }
+      }
+    }
+
+    p {
+      margin: 0;
+    }
+
+    img {
+        max-width: 20px;
+        max-height: 20px;
+      }
+
+    .close {
+      text-align: right;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .disabled {
   background-color: $gray;
 }
@@ -556,3 +678,5 @@ select {
 .error {
   color: $red;
 }
+
+

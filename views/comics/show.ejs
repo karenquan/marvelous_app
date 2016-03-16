@@ -8,7 +8,7 @@
   <section class="container">
     <article class="comic-container">
     <!-- comic thumbnails are not stored in the database, so set path to custom image -->
-      <$ if(comic.thumbnail.path + '.' + comic.thumbnail.extension.match(/image_not_available/)) { $>
+      <$ if(comic.thumbnail.path.match(/image_not_available/)) { $>
         <a href="/comics/<$= comic.id $>"><img class="comic-thumbnail" src="../../images/notfound2.gif" alt="<$= comic.title $>"></a>
       <$ } else { $>
         <a href="/comics/<$= comic.id $>"><img class="comic-thumbnail" src="<$= comic.thumbnail.path $>.<$= comic.thumbnail.extension $>" alt="<$= comic.title $>"></a>

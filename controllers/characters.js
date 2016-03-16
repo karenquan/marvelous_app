@@ -11,7 +11,25 @@ module.exports = {
 
 function index(req, res, next) {
   Character.find({}, function(error, characters) {
-    res.render('characters/index', { characters: characters, user: req.user });
+    //FILTER CHARACTERS BY FIRST LETTER
+    var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+    't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    var currentList = [];
+    var letters = [];
+    var sortedCharacters = [];
+    alphabet.forEach(function(letter) {
+      currentList = [];
+      letters.push(letter);
+      characters.forEach(function(character) {
+        currentList.push(letter);
+        if (character.name.charAt(0).toLowerCase() === letter) {
+          currentList.push(character);
+        }
+      });
+      sortedCharacters.push(currentList);
+    });
+    res.render('characters/index', { letters: letters, total: characters.length, sortedCharacters: sortedCharacters, user: req.user });
   });
 }
 
@@ -24,7 +42,7 @@ function create(req, res, next) {
 }
 
 function show(req, res, next) {
-  // //use id to search for character's comics in marvel database
+  //use id to search for character's comics in marvel's database
   var id = req.params.id;
   var character;
 
@@ -33,13 +51,8 @@ function show(req, res, next) {
     if(error) next(error);
 
     character = returnedCharacter[0];
-    console.log(character);
-    console.log('_id: ' + character._id);
     var ts = Date().toString();
-
-    // --- NEED TO UPDATE & HIDE KEYS IN .ENV
     var hash = md5(ts + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY);
-    // var hash = md5(ts + '5dd8925717ff2e9c19813e80ee8b00448736fda0c3efb289a52afc7877c1772359aad41a');
 
     //GRAB COMICS
     request({

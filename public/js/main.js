@@ -14,6 +14,7 @@ var Main = (function() {
       $updateListTitleInput = $('#updateListTitleInput'),
       $updateListTitleButton = $('#updateListTitleButton'),
       offset,
+      deleteItem = false,
       allCharacters = [],
       CURRENT_USER_FB_ID = $('.userName').length > 0 ? $('.userName').data('fb-id') : 0; //UPDATE THIS WITH DYNAMIC FB ID
 
@@ -32,6 +33,7 @@ var Main = (function() {
 // CORE  -----------------------------------------------------------------------
   var _core = function() {
     loadUsersLists();
+    backToTop();
 
     // EVENT HANDLERS ----------------------------------------------------------
 
@@ -49,9 +51,49 @@ var Main = (function() {
     });
 
     // ADD LOADING GIF
-    $('#characters a, .comic a').on('click', function(e) {
+    $('#characters .results a, .comic a').on('click', function(e) {
       $('body').addClass('loading');
     });
+
+    // MODAL CLOSE
+    $('.modal .close, .modal .no').on('click', function() {
+      $('.modal').addClass('hide');
+      $('#yesButton').removeClass();
+      $('#yesButton').addClass('button').addClass('yes');
+    });
+
+    // CHARACTERS INDEX
+    $('.letters a').on('click', function(e) {
+      e.preventDefault();
+      var $letter = $(this).attr('href');
+      var $letterOffset = $($letter).offset();
+      $('body').animate({
+        scrollTop: $letterOffset.top - $('nav').height()
+      });
+    });
+
+    // BACK TO TOP ANIMATION
+    function backToTop() {
+      $("#backToTop").hide();
+
+      $(function () { // fade arrow back in
+        $(window).scroll(function () {
+          if ($(this).scrollTop() > 150) {
+            $('#backToTop').fadeIn('slow');
+          } else {
+            $('#backToTop').fadeOut('slow');
+          }
+        });
+
+        // scroll body to 0px on click
+        $('#backToTop').on('click', function (e) {
+          e.preventDefault();
+          $('body').animate({
+            scrollTop: 0
+          }, 800);
+        });
+      });
+    }
 
     // AJAX --------------------------------------------------------------------
 
@@ -105,6 +147,7 @@ var Main = (function() {
         url: '/users/' + CURRENT_USER_FB_ID + '/lists',
         data: data
       }).done(function(list) {
+        location.reload();
         disableButtonUntilInput($addListInput, $addListButton);
         // console.log(list);
         var $newList = $('<div />', { 'class': 'list' }); //visually add new list section
@@ -129,50 +172,109 @@ var Main = (function() {
           method: 'POST',
           url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + selectedListId + '/comics',
           data: data
+      }).done(function() {
+        var $successElement, $addToListContainer, comicTitle, listTitle, $successText;
+        $addToListContainer = $('.add-to-list');
+        comicTitle = $('.comic-info h1').html();
+        listTitle = $('#userLists').find(":selected").val();
+        $successText = 'You added ' + comicTitle + ' to your ' + listTitle + ' list!';
+        var $successElement = $('<p />', { html: $successText });
+        $addToListContainer.append($successElement);
+        $successElement.fadeIn("slow").delay(5000).fadeOut('slow');
       });
     });
 
     //DELETE COMIC FROM LIST
-    $('.comic-lists').delegate('#removeComic', 'click', function(e) {
-      var comicContainer = $(this).parents('.comic')[0];
-      var listId = $(this).parents('.list').data('id');
-      var comicId = $($(this).closest('div')[0]).data('id');
+    $('.comic-lists').delegate('.removeComic', 'click', function(e) {
+      console.log('delete comic click');
+      var $comicContainer = $(this).parents('.comic')[0];
+      var $listId = $(this).parents('.list').data('id');
+      var $title = $($(this).parents('.comic')[0]).data('title');
+      var $comicId = $($(this).closest('div')[0]).data('id');
       var data = {
+        title: $title,
         facebookId: CURRENT_USER_FB_ID,
-        listId: listId,
-        comicId: $($(this).closest('div')[0]).data('id')
+        listId: $listId,
+        comicId: $comicId
       };
+
+      $.ajax({
+        method: 'DELETE',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId + '/comics/' + $comicId,
+        data: data
+      }).then(function(comic) {
+        $comicContainer.remove(); //remove comic from dom
+        $('.modal').addClass('hide');
+      });
+    });
+
+    function deleteComic(comicContainer, listId, comicId, data) {
       $.ajax({
         method: 'DELETE',
         url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
         data: data
       }).then(function(comic) {
-        console.log('deleted comic');
-        comicContainer.remove()//remove comic from dom
+        console.log('delete comic ' + data.title);
+        comicContainer.remove(); //remove comic from dom
+        $('.modal').addClass('hide');
       });
+    }
+
+    //DELETE A LIST (DELEGATE METHOD)
+    $('.list').delegate('.removeList', 'click', function(e) {
+      e.preventDefault();
+      var $listContainer = $(this).parents('.list');
+      var $title = $listContainer.find('h3').html();
+      var $listId = $listContainer.data('id');
+      var data = {
+        title: $title,
+        facebookId: CURRENT_USER_FB_ID,
+        listId: $listId
+      };
+
+      $.ajax({
+          method: 'DELETE',
+          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId,
+          data: data
+        }).then(function(list) {
+          $listContainer.remove();//remove list from dom
+          $('.modal').addClass('hide');
+        });
     });
 
-    // DELETE A LIST
-    $('.list').delegate('.deleteList', 'click', function(e) {
-      e.preventDefault();
-      var listContainer = $(this).parents('.list');
-      var listId = $(listContainer).data('id');
-      var data = {
-        facebookId: CURRENT_USER_FB_ID,
-        listId: listId
-      };
-      $.ajax({
-        method: 'DELETE',
-        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
-        data: data
-      }).then(function(list) {
-        listContainer.remove();//remove list from dom
-      });
-    });
+    // ------ TEST DELETE A LIST --------------
+    // $('.removeList').on('click', function(e) {
+    //     e.preventDefault();
+    //     var $listContainer = $(this).parents('.list');
+    //     var $title = $listContainer.find('h3').html();
+    //     var $listId = $listContainer.data('id');
+    //     console.log($listId);
+    //     var data = {
+    //       title: $title,
+    //       facebookId: CURRENT_USER_FB_ID,
+    //       listId: $listId
+    //     };
+
+    //     buildModal('list', $title);
+    //     $('#yesButton').on('click', function() {
+    //       deleteList($listContainer, $listId, data);
+    //     });
+    // });
+
+    // function deleteList(listContainer, listId, data) {
+    //   $.ajax({
+    //     method: 'DELETE',
+    //     url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
+    //     data: data
+    //   }).then(function(list) {
+    //     console.log('delete list ' + data.title);
+    //     listContainer.remove();//remove list from dom
+    //     $('.modal').addClass('hide');
+    //   });
+    // }
 
     // UPDATE LIST TITLE
     $('.user-actions').delegate('.updateList', 'click', function(e) {
-      console.log('click');
       e.preventDefault();
       var $inputContainer = $(this).siblings('.user-input');
       var $updateSubmitButton = $(this).siblings('.user-input').children('.updateListTitleButton');
@@ -204,6 +306,13 @@ var Main = (function() {
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
+  function buildModal(type, item) {
+    var text = type === 'comic' ? 'Are you sure you want to delete the comic, ' + item + '?' : 'Are you sure you want to delete the list, ' + item + '?';
+    $('.modal p').html(text);
+    $('span.yes').addClass(type);
+    $('.modal').removeClass('hide');
+  }
+
   function disableButtonUntilInput(input, button) {
     input.val('').focus();
     button.attr('disabled', true); //disabled by default
@@ -249,7 +358,7 @@ var Main = (function() {
     getCharacters();
 
     function getCharacters() { // MARVEL API RESULT LIMIT IS 100
-      var offset = 1100; //update offset with whatever offset you want
+      var offset = 800; //update offset with whatever offset you want
 
       $.ajax({
         method: 'GET',
@@ -278,15 +387,6 @@ var Main = (function() {
           allCharacters.push(_character);
         }
       });
-    }
-
-    function seedCharacter(character) {
-      $.ajax({
-        url: '/characters',
-        method: 'POST',
-        dataType: 'json',
-        data: character
-      }).then(function() { console.log('added ' + character.name); }, logErrors);
     }
   }; // END _seedCharacters()
 
