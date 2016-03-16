@@ -11,10 +11,7 @@ var Main = (function() {
       $searchButton = $('#searchButton'),
       $addListButton = $('#addListButton'),
       $addListInput = $('#addListInput'),
-      $updateListTitleInput = $('#updateListTitleInput'),
-      $updateListTitleButton = $('#updateListTitleButton'),
       offset,
-      deleteItem = false,
       allCharacters = [],
       CURRENT_USER_FB_ID = $('.userName').length > 0 ? $('.userName').data('fb-id') : 0; //UPDATE THIS WITH DYNAMIC FB ID
 
@@ -82,7 +79,7 @@ var Main = (function() {
     function backToTop() {
       $("#backToTop").hide();
 
-      $(function () { // fade arrow back in
+      $(function () { //fade arrow in after scrolling 150px
         $(window).scroll(function () {
           if ($(this).scrollTop() > 150) {
             $('#backToTop').fadeIn('slow');
@@ -91,7 +88,7 @@ var Main = (function() {
           }
         });
 
-        // scroll body to 0px on click
+        // scroll page back to the top
         $('#backToTop').on('click', function (e) {
           e.preventDefault();
           $('body').animate({
@@ -206,18 +203,16 @@ var Main = (function() {
       displayModal('list', $title);
       $('#yesButton').on('click', function() {
         removeComic($comicContainer, $listId, $comicId, data);
-        $('#yesButton').unbind('click'); // NECESSARY SO OLD LISTS DON'T PILE UP IN CLICK EVENT
+        $('#yesButton').unbind('click'); // NECESSARY SO OLD COMICS DON'T PILE UP IN CLICK EVENT
       });
     });
 
     function removeComic(comicContainer, listId, comicId, data) {
-      // console.log('trying to delete comic ' + data.title + ' (' + data.comicId + ')');
       $.ajax({
         method: 'DELETE',
         url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
         data: data
       }).then(function() {
-        // console.log('deleted comic ' + data.title + ' (' + data.comicId + ')');
         comicContainer.remove(); //remove comic from dom
         $('.modal').addClass('hide');
       });
@@ -229,7 +224,6 @@ var Main = (function() {
       var $listContainer = $(this).parents('.list');
       var $title = $listContainer.find('h3').html();
       var $listId = $listContainer.data('id');
-      // console.log('click event - delete list ' + $title + ' (' + $listId + ')');
       var data = {
         title: $title,
         facebookId: CURRENT_USER_FB_ID,
@@ -244,13 +238,11 @@ var Main = (function() {
     });
 
     function removeList(listContainer, listId, data) {
-      // console.log('trying to delete list ' + data.title + ' (' + data.listId + ')');
       $.ajax({
         method: 'DELETE',
         url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
         data: data
       }).then(function() {
-        // console.log('deleted list ' + data.title + ' (' + data.listId + ')');
         listContainer.remove(); //remove list from dom
         $('.modal').addClass('hide');
       });
@@ -325,17 +317,11 @@ var Main = (function() {
     return _character;
   } //END parseCharacter()
 
-  function logSuccess(data) {
-    console.log("Success: ", data);
-    return data; // Return the data so that it is in the
-                 // next #then in the chain!
-  } //END logSuccess
-
   function logErrors(err) {
     console.log("Failure: ", err);
   } //END logErrors
 
-  // SEED ALL CHARACTERS -------------------------------------------------------
+  // SEED CHARACTERS -------------------------------------------------------
   var _seedCharacters = function() {
 
     getCharacters();

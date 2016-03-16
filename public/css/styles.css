@@ -327,7 +327,6 @@ select {
       left: 0;
       height: 100%;
       width: 100%;
-      padding: 20px;
       background: rgba(0, 0, 0, 0.8);
       color: #FFF;
       height: 100%;
@@ -335,8 +334,20 @@ select {
       .character-show .comic-container .comic .comic-title:hover {
         cursor: pointer; }
       .character-show .comic-container .comic .comic-title h2 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
         font-family: 'Economica', arial, sans-serif;
-        font-size: 30px; }
+        font-size: 30px;
+        width: 100%;
+        height: 100%;
+        padding: 20px; }
+        .character-show .comic-container .comic .comic-title h2 a {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          text-decoration: none;
+          color: #FFF; }
 
 .character-show .character-container {
   height: 100%;
