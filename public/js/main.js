@@ -62,6 +62,12 @@ var Main = (function() {
       $('#yesButton').addClass('button').addClass('yes');
     });
 
+    // TOGGLE EFFECT ON COMIC HOVER
+    $('.comic').hover(function() {
+      var $hiddenComicTitle = $(this).children('.comic-title');
+      $hiddenComicTitle.toggleClass('hide');
+    });
+
     // CHARACTERS INDEX
     $('.letters a').on('click', function(e) {
       e.preventDefault();

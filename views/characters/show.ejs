@@ -24,6 +24,9 @@
           <$ } else { $>
              <a href="/comics/<$= comic.id $>"><img src="<$= comic.thumbnail $>" alt="<$= comic.title $>"></a>
           <$ } $>
+          <div class="comic-title hide">
+            <h2><$= comic.title $></h2>
+          </div>
         </div>
       <$ }); $>
     </article>

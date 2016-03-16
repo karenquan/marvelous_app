@@ -453,6 +453,31 @@ select {
     .comic {
       width: 49%;
       display: inline-block;
+      position: relative;
+      vertical-align: middle;
+
+
+      .comic-title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        padding: 20px;
+        background: rgba(0,0,0,0.8);
+        color: $white;
+        height: 100%;
+        width: 100%;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        h2 {
+          font-family: 'Economica', arial, sans-serif;
+          font-size: 30px;
+        }
+      }
     }
   }
 
@@ -462,7 +487,7 @@ select {
 
     h1 {
       text-transform: uppercase;
-      font-size: 30px;
+      font-size: 40px;
     }
 
     p {
