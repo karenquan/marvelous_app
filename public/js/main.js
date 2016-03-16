@@ -14,6 +14,7 @@ var Main = (function() {
       $updateListTitleInput = $('#updateListTitleInput'),
       $updateListTitleButton = $('#updateListTitleButton'),
       offset,
+      deleteItem = false,
       allCharacters = [],
       CURRENT_USER_FB_ID = $('.userName').length > 0 ? $('.userName').data('fb-id') : 0; //UPDATE THIS WITH DYNAMIC FB ID
 
@@ -184,62 +185,53 @@ var Main = (function() {
     });
 
     //DELETE COMIC FROM LIST
-    $('.comic-lists').delegate('#removeComic', 'click', function(e) {
-      var comicContainer = $(this).parents('.comic')[0];
-      var listId = $(this).parents('.list').data('id');
+    $('.comic-lists').delegate('.removeComic', 'click', function(e) {
+      console.log('delete comic click');
+      var $comicContainer = $(this).parents('.comic')[0];
+      var $listId = $(this).parents('.list').data('id');
       var $title = $($(this).parents('.comic')[0]).data('title');
-      console.log($(this).parents('.comic')[0]);
-      var comicId = $($(this).closest('div')[0]).data('id');
+      var $comicId = $($(this).closest('div')[0]).data('id');
       var data = {
+        title: $title,
         facebookId: CURRENT_USER_FB_ID,
-        listId: listId,
-        comicId: $($(this).closest('div')[0]).data('id')
+        listId: $listId,
+        comicId: $comicId
       };
-      // modal('comic', $title);
-      // $('.modal').removeClass('hide');
-      // $('#yesButton').on('click', function() {
-      //   $.ajax({
-      //     method: 'DELETE',
-      //     url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
-      //     data: data
-      //   }).then(function(comic) {
-      //     comicContainer.remove(); //remove comic from dom
-      //     $('.modal').addClass('hide');
-      //   });
-      // });
+
       $.ajax({
-          method: 'DELETE',
-          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
-          data: data
-        }).then(function(comic) {
-          comicContainer.remove(); //remove comic from dom
-          $('.modal').addClass('hide');
-        });
+        method: 'DELETE',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId + '/comics/' + $comicId,
+        data: data
+      }).then(function(comic) {
+        $comicContainer.remove(); //remove comic from dom
+        $('.modal').addClass('hide');
+      });
     });
 
-    // DELETE A LIST
-    $('.list').delegate('.deleteList', 'click', function(e) {
+    function deleteComic(comicContainer, listId, comicId, data) {
+      $.ajax({
+        method: 'DELETE',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
+        data: data
+      }).then(function(comic) {
+        console.log('delete comic ' + data.title);
+        comicContainer.remove(); //remove comic from dom
+        $('.modal').addClass('hide');
+      });
+    }
+
+    //DELETE A LIST (DELEGATE METHOD)
+    $('.list').delegate('.removeList', 'click', function(e) {
       e.preventDefault();
       var $listContainer = $(this).parents('.list');
       var $title = $listContainer.find('h3').html();
       var $listId = $listContainer.data('id');
       var data = {
+        title: $title,
         facebookId: CURRENT_USER_FB_ID,
         listId: $listId
       };
-      // modal('list', $title);
-      // $('.modal').removeClass('hide');
-      // $('#yesButton').on('click', function() {
-      //   $.ajax({
-      //     method: 'DELETE',
-      //     url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId,
-      //     data: data
-      //   }).then(function(list) {
-      //     $listContainer.remove();//remove list from dom
-      //     $('.modal').addClass('hide');
-      //     console.log($listId);
-      //   });
-      // });
+
       $.ajax({
           method: 'DELETE',
           url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId,
@@ -249,17 +241,37 @@ var Main = (function() {
           $('.modal').addClass('hide');
         });
     });
-    function ajaxDeleteList(listId) {
-      $.ajax({
-          method: 'DELETE',
-          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
-          data: data
-        }).then(function(list) {
 
-          $listContainer.remove();//remove list from dom
-          $('.modal').addClass('hide');
-        });
-    }
+    // ------ TEST DELETE A LIST --------------
+    // $('.removeList').on('click', function(e) {
+    //     e.preventDefault();
+    //     var $listContainer = $(this).parents('.list');
+    //     var $title = $listContainer.find('h3').html();
+    //     var $listId = $listContainer.data('id');
+    //     console.log($listId);
+    //     var data = {
+    //       title: $title,
+    //       facebookId: CURRENT_USER_FB_ID,
+    //       listId: $listId
+    //     };
+
+    //     buildModal('list', $title);
+    //     $('#yesButton').on('click', function() {
+    //       deleteList($listContainer, $listId, data);
+    //     });
+    // });
+
+    // function deleteList(listContainer, listId, data) {
+    //   $.ajax({
+    //     method: 'DELETE',
+    //     url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
+    //     data: data
+    //   }).then(function(list) {
+    //     console.log('delete list ' + data.title);
+    //     listContainer.remove();//remove list from dom
+    //     $('.modal').addClass('hide');
+    //   });
+    // }
 
     // UPDATE LIST TITLE
     $('.user-actions').delegate('.updateList', 'click', function(e) {
@@ -294,10 +306,11 @@ var Main = (function() {
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
-  function modal(type, item) {
+  function buildModal(type, item) {
     var text = type === 'comic' ? 'Are you sure you want to delete the comic, ' + item + '?' : 'Are you sure you want to delete the list, ' + item + '?';
     $('.modal p').html(text);
     $('span.yes').addClass(type);
+    $('.modal').removeClass('hide');
   }
 
   function disableButtonUntilInput(input, button) {
