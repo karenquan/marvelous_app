@@ -39,7 +39,7 @@ router.get('/users/:id/lists', apiController.getUserLists);
 // passport/OAuth2
 router.get('/auth/facebook', passport.authenticate(
   'facebook',
-  {scope: 'public_profile'}
+  {scope: 'public_profile'},{auth_type: 'reauthenticate'}
 ));
 
 router.get('/auth/facebook/callback', passport.authenticate(
