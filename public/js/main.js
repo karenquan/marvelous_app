@@ -59,8 +59,14 @@ var Main = (function() {
       $('#yesButton').addClass('button').addClass('yes');
     });
 
-    // TOGGLE EFFECT ON COMIC HOVER
-    $('.comic').hover(function() {
+    // TOGGLE EFFECT ON COMIC HOVER (CHARACTER & USER PAGE)
+    $('.character-show .comic, .user-show .comic-container').hover(function() {
+      var $hiddenComicTitle = $(this).children('.comic-title');
+      $hiddenComicTitle.toggleClass('hide');
+    });
+
+    // TOGGLE EFFECT ON COMIC HOVER (USER PAGE)
+    $('.character-show .comic').hover(function() {
       var $hiddenComicTitle = $(this).children('.comic-title');
       $hiddenComicTitle.toggleClass('hide');
     });
