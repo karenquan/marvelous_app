@@ -255,6 +255,30 @@ select {
         .home #characterSearchResults .character-item img:hover {
           opacity: 0.7; }
 
+.character-index {
+  text-align: center; }
+  .character-index h2 {
+    text-transform: uppercase;
+    color: #B6050F; }
+  .character-index .results span {
+    text-transform: uppercase;
+    color: #B6050F;
+    font-size: 40px;
+    font-weight: bold;
+    border-bottom: 1px solid #B6050F;
+    display: block;
+    margin: 20px auto;
+    width: 30px; }
+  .character-index .letters span {
+    background: #FFF;
+    color: #000;
+    border: 1px solid;
+    text-transform: uppercase;
+    font-size: 20px; }
+    .character-index .letters span:hover {
+      background-color: #96030a;
+      color: #FFF; }
+
 .character-show article {
   width: 50%;
   display: inline-block;

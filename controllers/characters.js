@@ -11,7 +11,25 @@ module.exports = {
 
 function index(req, res, next) {
   Character.find({}, function(error, characters) {
-    res.render('characters/index', { characters: characters, user: req.user });
+    //FILTER CHARACTERS BY FIRST LETTER
+    var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+    't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    var currentList = [];
+    var letters = [];
+    var sortedCharacters = [];
+    alphabet.forEach(function(letter) {
+      currentList = [];
+      letters.push(letter);
+      characters.forEach(function(character) {
+        currentList.push(letter);
+        if (character.name.charAt(0).toLowerCase() === letter) {
+          currentList.push(character);
+        }
+      });
+      sortedCharacters.push(currentList);
+    });
+    res.render('characters/index', { letters: letters, total: characters.length, sortedCharacters: sortedCharacters, user: req.user });
   });
 }
 

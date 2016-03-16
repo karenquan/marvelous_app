@@ -8,11 +8,21 @@
   <section class="container">
     <article id="characters">
       <h1>View All Characters</h1>
-      <p<em> Last Updated on 03/15/16</em></p>
-      <h2>Total: <strong><$= characters.length $></strong></h2>
+      <p<em>Last Updated on 03/15/16</em></p>
+      <h2>Total: <strong><$= total $></strong></h2>
+
+      <div class="letters">
+        <$ letters.forEach(function(letter) { $>
+            <span class="button <$= letter $>"><$= letter $></span>
+        <$ }); $>
+      </div>
+
       <div class="results">
-        <$ characters.forEach(function(character) { $>
-          <a href="/characters/<$= character.id $>"><$= character.name $></a>
+        <$ sortedCharacters.forEach(function(characterSet) { $>
+          <span id="<$= characterSet[0] $>"><$= characterSet[0] $></span>
+          <$ characterSet.forEach(function(character) { $>
+            <a href="/characters/<$= character.id $>"><$= character.name $></a>
+          <$ }); $>
         <$ }); $>
       </div>
     </article>

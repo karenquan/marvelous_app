@@ -370,6 +370,43 @@ select {
   }
 }
 
+.character-index {
+  text-align: center;
+
+  h2 {
+    text-transform: uppercase;
+    color: $red;
+  }
+
+  .results {
+    span {
+      text-transform: uppercase;
+      color: $red;
+      font-size: 40px;
+      font-weight: bold;
+      border-bottom: 1px solid $red;
+      display: block;
+      margin: 20px auto;
+      width: 30px;
+    }
+  }
+
+  .letters {
+    span {
+      background: $white;
+      color: $black;
+      border: 1px solid;
+      text-transform: uppercase;
+      font-size: 20px;
+
+      &:hover {
+        background-color: $redhover;
+        color: $white;
+      }
+    }
+  }
+}
+
 .character-show {
 
   article {
