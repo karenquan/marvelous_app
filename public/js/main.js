@@ -156,8 +156,7 @@ var Main = (function() {
         url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
         data: data
       }).then(function(comic) {
-        console.log('deleted comic');
-        comicContainer.remove()//remove comic from dom
+        comicContainer.remove(); //remove comic from dom
       });
     });
 
@@ -181,7 +180,6 @@ var Main = (function() {
 
     // UPDATE LIST TITLE
     $('.user-actions').delegate('.updateList', 'click', function(e) {
-      console.log('click');
       e.preventDefault();
       var $inputContainer = $(this).siblings('.user-input');
       var $updateSubmitButton = $(this).siblings('.user-input').children('.updateListTitleButton');
@@ -213,6 +211,29 @@ var Main = (function() {
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
+  function modal(text) {
+    var $divContainer,
+        $contentContainer,
+        $text,
+        $closeContainer,
+        $yesButton, $noButton;
+
+    $divContainer = $('<div />', { 'class': 'modal' });
+    $contentContainer = $('<div />', { 'class': 'content' });
+    $closeContainer = $('<div />', { 'class': 'close' });
+      $closeContainer.append($('<img />', { src: '../../images/close.png' }));
+    $text = $('<p />', text: text);
+    $yesButton = $('<span />', { 'class': 'button yes', text: 'YES' });
+    $noButton = $('<span />', { 'class': 'button no', text: 'NO' });
+    $contentContainer.append($closeContainer)
+                     .append($text)
+                     .append($yesButton)
+                     .append($noButton);
+    $divContainer.append($contentContainer);
+
+    $('body').append($divContainer);
+  }
+
   function disableButtonUntilInput(input, button) {
     input.val('').focus();
     button.attr('disabled', true); //disabled by default
@@ -287,15 +308,6 @@ var Main = (function() {
           allCharacters.push(_character);
         }
       });
-    }
-
-    function seedCharacter(character) {
-      $.ajax({
-        url: '/characters',
-        method: 'POST',
-        dataType: 'json',
-        data: character
-      }).then(function() { console.log('added ' + character.name); }, logErrors);
     }
   }; // END _seedCharacters()
 
