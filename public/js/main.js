@@ -221,57 +221,60 @@ var Main = (function() {
     }
 
     //DELETE A LIST (DELEGATE METHOD)
+    // $('.list').delegate('.removeList', 'click', function(e) {
+    //   e.preventDefault();
+    //   var $listContainer = $(this).parents('.list');
+    //   var $title = $listContainer.find('h3').html();
+    //   var $listId = $listContainer.data('id');
+    //   var data = {
+    //     title: $title,
+    //     facebookId: CURRENT_USER_FB_ID,
+    //     listId: $listId
+    //   };
+
+    //   $.ajax({
+    //       method: 'DELETE',
+    //       url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId,
+    //       data: data
+    //     }).then(function() {
+    //       $listContainer.remove(); //remove list from dom
+    //       $('.modal').addClass('hide');
+    //     });
+    // });
+
+    // ------ TEST DELETE A LIST --------------
     $('.list').delegate('.removeList', 'click', function(e) {
       e.preventDefault();
       var $listContainer = $(this).parents('.list');
       var $title = $listContainer.find('h3').html();
       var $listId = $listContainer.data('id');
+      console.log('click event - delete list ' + $title + ' (' + $listId + ')');
       var data = {
         title: $title,
         facebookId: CURRENT_USER_FB_ID,
         listId: $listId
       };
 
+      displayModal('list', $title);
+      $('#yesButton').on('click', function() {
+        console.log('hmm');
+        deleteList($listContainer, $listId, data);
+        $('#yesButton').unbind('click'); // NECESSARY SO OLD LISTS DON'T PILE UP IN CLICK EVENT
+      });
+    }); // END TEST DELETE A LIST
+
+    function deleteList(listContainer, listId, data) {
+      console.log('trying to delete list ' + data.title + ' (' + data.listId + ')');
       $.ajax({
-          method: 'DELETE',
-          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId,
-          data: data
-        }).then(function(list) {
-          $listContainer.remove();//remove list from dom
-          $('.modal').addClass('hide');
-        });
-    });
-
-    // ------ TEST DELETE A LIST --------------
-    // $('.removeList').on('click', function(e) {
-    //     e.preventDefault();
-    //     var $listContainer = $(this).parents('.list');
-    //     var $title = $listContainer.find('h3').html();
-    //     var $listId = $listContainer.data('id');
-    //     console.log($listId);
-    //     var data = {
-    //       title: $title,
-    //       facebookId: CURRENT_USER_FB_ID,
-    //       listId: $listId
-    //     };
-
-    //     buildModal('list', $title);
-    //     $('#yesButton').on('click', function() {
-    //       deleteList($listContainer, $listId, data);
-    //     });
-    // });
-
-    // function deleteList(listContainer, listId, data) {
-    //   $.ajax({
-    //     method: 'DELETE',
-    //     url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
-    //     data: data
-    //   }).then(function(list) {
-    //     console.log('delete list ' + data.title);
-    //     listContainer.remove();//remove list from dom
-    //     $('.modal').addClass('hide');
-    //   });
-    // }
+        method: 'DELETE',
+        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
+        data: data
+      }).then(function() {
+        console.log('deleted list ' + data.title + ' (' + data.listId + ')');
+        listContainer.remove(); //remove list from dom
+        $('.modal').addClass('hide');
+      });
+    }
 
     // UPDATE LIST TITLE
     $('.user-actions').delegate('.updateList', 'click', function(e) {
@@ -306,7 +309,7 @@ var Main = (function() {
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
-  function buildModal(type, item) {
+  function displayModal(type, item) {
     var text = type === 'comic' ? 'Are you sure you want to delete the comic, ' + item + '?' : 'Are you sure you want to delete the list, ' + item + '?';
     $('.modal p').html(text);
     $('span.yes').addClass(type);
@@ -358,7 +361,7 @@ var Main = (function() {
     getCharacters();
 
     function getCharacters() { // MARVEL API RESULT LIMIT IS 100
-      var offset = 1000; //update offset with whatever offset you want
+      var offset = 1300; //update offset with whatever offset you want
 
       $.ajax({
         method: 'GET',
