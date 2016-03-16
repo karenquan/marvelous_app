@@ -211,27 +211,31 @@ var Main = (function() {
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
-  function modal(text) {
-    var $divContainer,
+  function modal(text, type) {
+    var $modalContainer,
         $contentContainer,
         $text,
         $closeContainer,
-        $yesButton, $noButton;
+        $yesButton, $noButton,
+        yesClasses, noClasses;
 
-    $divContainer = $('<div />', { 'class': 'modal' });
+    $modalContainer = $('<div />', { 'class': 'modal' });
     $contentContainer = $('<div />', { 'class': 'content' });
     $closeContainer = $('<div />', { 'class': 'close' });
       $closeContainer.append($('<img />', { src: '../../images/close.png' }));
-    $text = $('<p />', text: text);
-    $yesButton = $('<span />', { 'class': 'button yes', text: 'YES' });
-    $noButton = $('<span />', { 'class': 'button no', text: 'NO' });
+    $text = $('<p />', { text: text });
+
+    yesClasses = type === 'comic' ? 'button comic yes' : 'button list yes';
+    noClasses = type === 'comic' ? 'button comic no' : 'button list no';
+
+    $yesButton = $('<span />', { 'class': yesClasses, text: 'YES' });
+      $noButton = $('<span />', { 'class': noClasses, text: 'NO' });
     $contentContainer.append($closeContainer)
                      .append($text)
                      .append($yesButton)
                      .append($noButton);
-    $divContainer.append($contentContainer);
-
-    $('body').append($divContainer);
+    $modalContainer.append($contentContainer);
+    $('body').append($modalContainer);
   }
 
   function disableButtonUntilInput(input, button) {
