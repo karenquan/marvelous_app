@@ -269,15 +269,19 @@ select {
     display: block;
     margin: 20px auto;
     width: 30px; }
-  .character-index .letters span {
+  .character-index .letters a {
     background: #FFF;
+    padding: 20px;
     color: #000;
     border: 1px solid;
     text-transform: uppercase;
-    font-size: 20px; }
-    .character-index .letters span:hover {
+    font-size: 20px;
+    width: 30px;
+    display: inline-block !important;
+    text-decoration: none; }
+    .character-index .letters a:hover {
       background-color: #96030a;
-      color: #FFF; }
+      color: #FFF !important; }
 
 .character-show article {
   width: 50%;

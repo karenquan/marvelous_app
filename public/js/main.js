@@ -49,7 +49,7 @@ var Main = (function() {
     });
 
     // ADD LOADING GIF
-    $('#characters a, .comic a').on('click', function(e) {
+    $('#characters .results a, .comic a').on('click', function(e) {
       $('body').addClass('loading');
     });
 
@@ -58,6 +58,16 @@ var Main = (function() {
       $('.modal').addClass('hide');
       $('#yesButton').removeClass();
       $('#yesButton').addClass('button').addClass('yes');
+    });
+
+    // CHARACTERS INDEX
+    $('.letters a').on('click', function(e) {
+      e.preventDefault();
+      var $letter = $(this).attr('href');
+      var $letterOffset = $($letter).offset();
+      $('body').animate({
+        scrollTop: $letterOffset.top - $('nav').height()
+      });
     });
 
     // AJAX --------------------------------------------------------------------
@@ -143,7 +153,7 @@ var Main = (function() {
         comicTitle = $('.comic-info h1').html();
         listTitle = $('#userLists').find(":selected").val();
         $successText = 'You added ' + comicTitle + ' to your ' + listTitle + ' list!';
-        var $successElement = $('<p />', { text: $successText });
+        var $successElement = $('<p />', { html: $successText });
         $addToListContainer.append($successElement);
         $successElement.fadeIn("slow").delay(5000).fadeOut('slow');
       });
@@ -153,19 +163,34 @@ var Main = (function() {
     $('.comic-lists').delegate('#removeComic', 'click', function(e) {
       var comicContainer = $(this).parents('.comic')[0];
       var listId = $(this).parents('.list').data('id');
+      var $title = $($(this).parents('.comic')[0]).data('title');
+      console.log($(this).parents('.comic')[0]);
       var comicId = $($(this).closest('div')[0]).data('id');
       var data = {
         facebookId: CURRENT_USER_FB_ID,
         listId: listId,
         comicId: $($(this).closest('div')[0]).data('id')
       };
+      // modal('comic', $title);
+      // $('.modal').removeClass('hide');
+      // $('#yesButton').on('click', function() {
+      //   $.ajax({
+      //     method: 'DELETE',
+      //     url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
+      //     data: data
+      //   }).then(function(comic) {
+      //     comicContainer.remove(); //remove comic from dom
+      //     $('.modal').addClass('hide');
+      //   });
+      // });
       $.ajax({
-        method: 'DELETE',
-        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
-        data: data
-      }).then(function(comic) {
-        comicContainer.remove(); //remove comic from dom
-      });
+          method: 'DELETE',
+          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId + '/comics/' + comicId,
+          data: data
+        }).then(function(comic) {
+          comicContainer.remove(); //remove comic from dom
+          $('.modal').addClass('hide');
+        });
     });
 
     // DELETE A LIST
@@ -178,10 +203,20 @@ var Main = (function() {
         facebookId: CURRENT_USER_FB_ID,
         listId: $listId
       };
-      modal('list', $title);
-      $('.modal').removeClass('hide');
-      $('#yesButton').on('click', function() {
-        $.ajax({
+      // modal('list', $title);
+      // $('.modal').removeClass('hide');
+      // $('#yesButton').on('click', function() {
+      //   $.ajax({
+      //     method: 'DELETE',
+      //     url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId,
+      //     data: data
+      //   }).then(function(list) {
+      //     $listContainer.remove();//remove list from dom
+      //     $('.modal').addClass('hide');
+      //     console.log($listId);
+      //   });
+      // });
+      $.ajax({
           method: 'DELETE',
           url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId,
           data: data
@@ -189,8 +224,18 @@ var Main = (function() {
           $listContainer.remove();//remove list from dom
           $('.modal').addClass('hide');
         });
-      });
     });
+    function ajaxDeleteList(listId) {
+      $.ajax({
+          method: 'DELETE',
+          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
+          data: data
+        }).then(function(list) {
+
+          $listContainer.remove();//remove list from dom
+          $('.modal').addClass('hide');
+        });
+    }
 
     // UPDATE LIST TITLE
     $('.user-actions').delegate('.updateList', 'click', function(e) {

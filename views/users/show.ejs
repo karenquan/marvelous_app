@@ -25,7 +25,7 @@
             </div>
             <$ if (list.comics.length > 0) { $>
               <$ list.comics.forEach(function(comic) { $>
-                <div class="comic" data-id="<$= comic._id $>" data-comic-id="<$= comic.id $>">
+                <div class="comic" data-title="<$= comic.title $>" data-id="<$= comic._id $>" data-comic-id="<$= comic.id $>">
                   <a href="/comics/<$= comic.id $>"><img src="<$= comic.thumbnail $>" alt="<$= comic.thumbnail $>"></a>
                   <span class="button" id="removeComic">REMOVE</span>
                 </div>
