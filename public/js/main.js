@@ -358,7 +358,7 @@ var Main = (function() {
     getCharacters();
 
     function getCharacters() { // MARVEL API RESULT LIMIT IS 100
-      var offset = 800; //update offset with whatever offset you want
+      var offset = 1000; //update offset with whatever offset you want
 
       $.ajax({
         method: 'GET',
