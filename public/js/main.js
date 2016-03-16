@@ -32,6 +32,7 @@ var Main = (function() {
 // CORE  -----------------------------------------------------------------------
   var _core = function() {
     loadUsersLists();
+    backToTop();
 
     // EVENT HANDLERS ----------------------------------------------------------
 
@@ -69,6 +70,29 @@ var Main = (function() {
         scrollTop: $letterOffset.top - $('nav').height()
       });
     });
+
+    // BACK TO TOP ANIMATION
+    function backToTop() {
+      $("#backToTop").hide();
+
+      $(function () { // fade arrow back in
+        $(window).scroll(function () {
+          if ($(this).scrollTop() > 150) {
+            $('#backToTop').fadeIn('slow');
+          } else {
+            $('#backToTop').fadeOut('slow');
+          }
+        });
+
+        // scroll body to 0px on click
+        $('#backToTop').on('click', function (e) {
+          e.preventDefault();
+          $('body').animate({
+            scrollTop: 0
+          }, 800);
+        });
+      });
+    }
 
     // AJAX --------------------------------------------------------------------
 

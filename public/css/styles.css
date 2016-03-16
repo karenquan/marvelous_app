@@ -156,6 +156,30 @@ select {
     font-size: 18px; }
     #characters a:hover {
       opacity: 0.8; }
+  #characters .letters a {
+    background: #FFF;
+    padding: 20px;
+    color: #000;
+    border: 1px solid;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: bold;
+    width: 30px;
+    display: inline-block;
+    text-decoration: none; }
+    #characters .letters a:hover {
+      background-color: #96030a;
+      color: #FFF; }
+
+#backToTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  transition: 0.5s; }
+  #backToTop:hover {
+    opacity: 0.7; }
 
 /* ---------- CLASSES ---------------------- */
 .container {
@@ -260,28 +284,18 @@ select {
   .character-index h2 {
     text-transform: uppercase;
     color: #B6050F; }
-  .character-index .results span {
-    text-transform: uppercase;
-    color: #B6050F;
-    font-size: 40px;
-    font-weight: bold;
-    border-bottom: 1px solid #B6050F;
-    display: block;
-    margin: 20px auto;
-    width: 30px; }
-  .character-index .letters a {
-    background: #FFF;
-    padding: 20px;
-    color: #000;
-    border: 1px solid;
-    text-transform: uppercase;
-    font-size: 20px;
-    width: 30px;
-    display: inline-block !important;
-    text-decoration: none; }
-    .character-index .letters a:hover {
-      background-color: #96030a;
-      color: #FFF !important; }
+  .character-index .results {
+    max-width: 600px;
+    margin: 0 auto; }
+    .character-index .results span {
+      text-transform: uppercase;
+      color: #B6050F;
+      font-size: 40px;
+      font-weight: bold;
+      border-bottom: 1px solid #B6050F;
+      display: block;
+      margin: 20px auto;
+      width: 30px; }
 
 .character-show article {
   width: 50%;
