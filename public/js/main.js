@@ -53,6 +53,13 @@ var Main = (function() {
       $('body').addClass('loading');
     });
 
+    // MODAL CLOSE
+    $('.modal .close, .modal .no').on('click', function() {
+      $('.modal').addClass('hide');
+      $('#yesButton').removeClass();
+      $('#yesButton').addClass('button').addClass('yes');
+    });
+
     // AJAX --------------------------------------------------------------------
 
     // SEARCH FOR CHARACTER BY NAME (HOME PAGE)
@@ -105,6 +112,7 @@ var Main = (function() {
         url: '/users/' + CURRENT_USER_FB_ID + '/lists',
         data: data
       }).done(function(list) {
+        location.reload();
         disableButtonUntilInput($addListInput, $addListButton);
         // console.log(list);
         var $newList = $('<div />', { 'class': 'list' }); //visually add new list section
@@ -163,18 +171,24 @@ var Main = (function() {
     // DELETE A LIST
     $('.list').delegate('.deleteList', 'click', function(e) {
       e.preventDefault();
-      var listContainer = $(this).parents('.list');
-      var listId = $(listContainer).data('id');
+      var $listContainer = $(this).parents('.list');
+      var $title = $listContainer.find('h3').html();
+      var $listId = $listContainer.data('id');
       var data = {
         facebookId: CURRENT_USER_FB_ID,
-        listId: listId
+        listId: $listId
       };
-      $.ajax({
-        method: 'DELETE',
-        url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + listId,
-        data: data
-      }).then(function(list) {
-        listContainer.remove();//remove list from dom
+      modal('list', $title);
+      $('.modal').removeClass('hide');
+      $('#yesButton').on('click', function() {
+        $.ajax({
+          method: 'DELETE',
+          url: '/users/' + CURRENT_USER_FB_ID + '/lists/' + $listId,
+          data: data
+        }).then(function(list) {
+          $listContainer.remove();//remove list from dom
+          $('.modal').addClass('hide');
+        });
       });
     });
 
@@ -211,31 +225,10 @@ var Main = (function() {
   }; //END _core()
 
   // HELPERS -------------------------------------------------------------------
-  function modal(text, type) {
-    var $modalContainer,
-        $contentContainer,
-        $text,
-        $closeContainer,
-        $yesButton, $noButton,
-        yesClasses, noClasses;
-
-    $modalContainer = $('<div />', { 'class': 'modal' });
-    $contentContainer = $('<div />', { 'class': 'content' });
-    $closeContainer = $('<div />', { 'class': 'close' });
-      $closeContainer.append($('<img />', { src: '../../images/close.png' }));
-    $text = $('<p />', { text: text });
-
-    yesClasses = type === 'comic' ? 'button comic yes' : 'button list yes';
-    noClasses = type === 'comic' ? 'button comic no' : 'button list no';
-
-    $yesButton = $('<span />', { 'class': yesClasses, text: 'YES' });
-      $noButton = $('<span />', { 'class': noClasses, text: 'NO' });
-    $contentContainer.append($closeContainer)
-                     .append($text)
-                     .append($yesButton)
-                     .append($noButton);
-    $modalContainer.append($contentContainer);
-    $('body').append($modalContainer);
+  function modal(type, item) {
+    var text = type === 'comic' ? 'Are you sure you want to delete the comic, ' + item + '?' : 'Are you sure you want to delete the list, ' + item + '?';
+    $('.modal p').html(text);
+    $('span.yes').addClass(type);
   }
 
   function disableButtonUntilInput(input, button) {

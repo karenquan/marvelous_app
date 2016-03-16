@@ -8,7 +8,6 @@
 
   <section class="container">
     <h1><$= user.name $></h1>
-
     <h2>My Lists</h2>
     <input type="text" id="addListInput">
     <button id="addListButton" class="disabled">ADD A NEW LIST</button>
@@ -35,6 +34,14 @@
           </div>
         <$ }); $> <!-- end loop through user's lists -->
       <$ } $> <!-- end check if user has any lists -->
+    </div>
+    <div class="modal hide">
+      <div class="content">
+        <div class="close"><img src="../../images/close.png"></div>
+        <p></p>
+        <span id="yesButton" class="button yes">YES</span>
+        <span class="button no">NO</span>
+      </div>
     </div>
   </section>
   <$- include('../partials/scripts') $>

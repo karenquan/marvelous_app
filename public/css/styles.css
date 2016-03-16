@@ -371,15 +371,6 @@ select {
       width: 100%;
       margin: 0; }
 
-.disabled {
-  background-color: #333; }
-
-.hide {
-  display: none; }
-
-.error {
-  color: #B6050F; }
-
 .modal {
   position: fixed;
   top: 0;
@@ -416,3 +407,12 @@ select {
       text-align: right; }
       .modal .content .close:hover {
         cursor: pointer; }
+
+.disabled {
+  background-color: #333; }
+
+.hide {
+  display: none; }
+
+.error {
+  color: #B6050F; }
