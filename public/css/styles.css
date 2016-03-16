@@ -44,7 +44,8 @@ nav {
     nav ul li {
       text-transform: uppercase;
       display: inline-block;
-      font-size: 20px; }
+      font-size: 20px;
+      float: left; }
       nav ul li a {
         display: inline-block;
         padding: 20px;
@@ -52,6 +53,8 @@ nav {
         text-decoration: none; }
         nav ul li a:hover {
           background-color: #96030a; }
+      nav ul li.right {
+        float: right; }
 
 section, div, article {
   -webkit-box-sizing: border-box;
@@ -154,6 +157,30 @@ select {
     font-size: 18px; }
     #characters a:hover {
       opacity: 0.8; }
+  #characters .letters a {
+    background: #FFF;
+    padding: 20px;
+    color: #000;
+    border: 1px solid;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: bold;
+    width: 30px;
+    display: inline-block;
+    text-decoration: none; }
+    #characters .letters a:hover {
+      background-color: #96030a;
+      color: #FFF; }
+
+#backToTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  transition: 0.5s; }
+  #backToTop:hover {
+    opacity: 0.7; }
 
 /* ---------- CLASSES ---------------------- */
 .container {
@@ -253,6 +280,24 @@ select {
         .home #characterSearchResults .character-item img:hover {
           opacity: 0.7; }
 
+.character-index {
+  text-align: center; }
+  .character-index h2 {
+    text-transform: uppercase;
+    color: #B6050F; }
+  .character-index .results {
+    max-width: 600px;
+    margin: 0 auto; }
+    .character-index .results span {
+      text-transform: uppercase;
+      color: #B6050F;
+      font-size: 40px;
+      font-weight: bold;
+      border-bottom: 1px solid #B6050F;
+      display: block;
+      margin: 20px auto;
+      width: 30px; }
+
 .character-show article {
   width: 50%;
   display: inline-block;
@@ -288,6 +333,9 @@ select {
 
 .comic-show img {
   max-width: 100%; }
+
+.comic-show .add-to-list p {
+  color: #B6050F; }
 
 .comic-show .comic-info {
   padding: 20px; }
@@ -365,6 +413,43 @@ select {
     .user-show .comic-lists .comic span.button {
       width: 100%;
       margin: 0; }
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  align-items: center; }
+  .modal .content {
+    background: #FFF;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto; }
+    .modal .content span {
+      margin: 20px 10px 0 10px; }
+      .modal .content span.no {
+        background: #000; }
+        .modal .content span.no:hover {
+          background: #333; }
+    .modal .content p {
+      margin: 0; }
+    .modal .content img {
+      max-width: 20px;
+      max-height: 20px; }
+    .modal .content .close {
+      text-align: right; }
+      .modal .content .close:hover {
+        cursor: pointer; }
 
 .disabled {
   background-color: #333; }

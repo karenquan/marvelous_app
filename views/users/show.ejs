@@ -8,7 +8,6 @@
 
   <section class="container">
     <h1><$= user.name $></h1>
-
     <h2>My Lists</h2>
     <input type="text" id="addListInput">
     <button id="addListButton" class="disabled">ADD A NEW LIST</button>
@@ -18,7 +17,7 @@
           <div class="list" data-id="<$= list._id $>">
             <h3><$= list.title $></h3>
             <div class="user-actions" class="hide">
-              <a href="#" class="deleteList">[ DELETE LIST ]</a> | <a href="#" class="updateList">[ UPDATE LIST TITLE ]</a><br />
+              <a href="#" class="removeList">[ REMOVE LIST ]</a> | <a href="#" class="updateList">[ UPDATE LIST TITLE ]</a><br />
               <div class="user-input hide">
                 <input class="updateListTitleInput" type="text">
                 <button class="updateListTitleButton" class="disabled">UPDATE TITLE</button>
@@ -26,15 +25,23 @@
             </div>
             <$ if (list.comics.length > 0) { $>
               <$ list.comics.forEach(function(comic) { $>
-                <div class="comic" data-id="<$= comic._id $>" data-comic-id="<$= comic.id $>">
+                <div class="comic" data-title="<$= comic.title $>" data-id="<$= comic._id $>" data-comic-id="<$= comic.id $>">
                   <a href="/comics/<$= comic.id $>"><img src="<$= comic.thumbnail $>" alt="<$= comic.thumbnail $>"></a>
-                  <span class="button" id="removeComic">REMOVE</span>
+                  <span class="button removeComic">REMOVE</span>
                 </div>
               <$ }); $> <!-- end loop through comics in a particular list -->
             <$ } $> <!-- end check if there are any comics in a particular list -->
           </div>
         <$ }); $> <!-- end loop through user's lists -->
       <$ } $> <!-- end check if user has any lists -->
+    </div>
+    <div class="modal hide">
+      <div class="content">
+        <div class="close"><img src="../../images/close.png"></div>
+        <p></p>
+        <span id="yesButton" class="button yes">YES</span>
+        <span class="button no">NO</span>
+      </div>
     </div>
   </section>
   <$- include('../partials/scripts') $>
