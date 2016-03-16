@@ -60,7 +60,7 @@ var Main = (function() {
     });
 
     // TOGGLE EFFECT ON COMIC HOVER (CHARACTER & USER PAGE)
-    $('.character-show .comic, .user-show .comic-container').hover(function() {
+    $('.character-show .comic-title, .user-show .comic-container').hover(function() {
       var $hiddenComicTitle = $(this).children('.comic-title');
       $hiddenComicTitle.toggleClass('hide');
     });

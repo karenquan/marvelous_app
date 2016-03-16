@@ -322,6 +322,8 @@ select {
     display: inline-block;
     position: relative;
     vertical-align: middle; }
+    .character-show .comic-container .comic:hover {
+      cursor: pointer; }
     .character-show .comic-container .comic .comic-title {
       position: absolute;
       top: 0;
@@ -332,8 +334,6 @@ select {
       color: #FFF;
       height: 100%;
       width: 100%; }
-      .character-show .comic-container .comic .comic-title:hover {
-        cursor: pointer; }
       .character-show .comic-container .comic .comic-title a {
         display: inline-block;
         -webkit-box-sizing: border-box;

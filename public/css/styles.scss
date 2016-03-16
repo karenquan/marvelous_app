@@ -457,6 +457,9 @@ select {
       position: relative;
       vertical-align: middle;
 
+      &:hover {
+          cursor: pointer;
+        }
 
       .comic-title {
         position: absolute;
@@ -469,9 +472,7 @@ select {
         height: 100%;
         width: 100%;
 
-        &:hover {
-          cursor: pointer;
-        }
+
 
         a {
           display: inline-block;
