@@ -4,8 +4,8 @@ module.exports = {
   show:  show
 };
 function index(req, res, next) {
-
 }
+
 function show(req, res, next) {
   User.find({ facebookId: req.params.id }, function(err, user) {
     var _user = user[0];

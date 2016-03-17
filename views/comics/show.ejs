@@ -19,7 +19,6 @@
       <$ if (comic.description != null && comic.description != "") { $>
         <p class="comic-description"><$= comic.description $></p>
       <$ } $>
-
       <!-- LISTS -->
       <div class="add-to-list hide">
         <h2>Add to a List</h2>
@@ -30,7 +29,6 @@
         </select>
         <span class="button" id="addComicToList">+ ADD TO LIST</span>
       </div>
-
       <!-- CHARACTERS -->
       <$ if(comic.characters.available > 0) { $>
         <div class="characters">
@@ -40,7 +38,6 @@
           <$ }); $>
         </div>
       <$ } $>
-
       <!-- CREATORS -->
       <$ if(comic.creators.available > 0) { $>
         <div class="creators">
