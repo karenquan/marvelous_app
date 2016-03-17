@@ -4,9 +4,7 @@ var md5 = require('md5');
 
 module.exports = {
   index: index,
-  create: create,
-  show: show,
-  search: characterSearch
+  show: show
 };
 
 function index(req, res, next) {
@@ -29,14 +27,6 @@ function index(req, res, next) {
     });
     console.log(sortedCharacters);
     res.render('characters/index', { letters: alphabet, total: characters.length, sortedCharacters: sortedCharacters, user: req.user });
-  });
-}
-
-function create(req, res, next) {
-  var newCharacter = new Character(req.body);
-  newCharacter.save(function(error, savedCharacter) {
-    if (error) next(error);
-    res.json(savedCharacter);
   });
 }
 
@@ -76,16 +66,6 @@ function show(req, res, next) {
         res.render('characters/show', { character: character, comics: parsedComics, user: req.user });
       }
     });
-  });
-}
-
-function characterSearch(req, res, next) {
-  var characterName = decodeURI(req.params.name);
-  Character.find({ name: { $regex: new RegExp("^" + characterName, "i") } }, function(error, characters) {
-    if(error) next(error);
-    else {
-      res.json(characters);
-    }
   });
 }
 
