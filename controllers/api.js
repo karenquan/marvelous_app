@@ -11,7 +11,6 @@ module.exports = {
 
 function createList(req, res, next) {
   var data = req.body; //data contains user & list name
-  console.log(data);
   User.find({ facebookId: data.facebookId }, function(error, user) {
     if(error) next(error);
 
@@ -22,10 +21,8 @@ function createList(req, res, next) {
 
     _user.save(function(error) {
       if (error) {
-        console.log(error);
         next(error);
       } else {
-        console.log(_user.lists[_user.lists.length - 1]);
         res.send(_user.lists[_user.lists.length - 1]);
       }
     });
@@ -39,14 +36,12 @@ function destroyList(req, res, next) {
     _user.lists.id(data.listId).remove();
     _user.save(function(error) {
       if (error) {
-        console.log(error);
         next(error);
       } else {
         res.send();
       }
     });
   });
-  console.log(data);
 }
 
 function addComicToList(req, res, next) {
@@ -62,7 +57,6 @@ function addComicToList(req, res, next) {
     });
     _user.save(function(error) {
       if (error) {
-        console.log(error);
         next(error);
       } else {
         res.send();
@@ -79,13 +73,11 @@ function destroyComic(req, res, next) {
     list.comics.id(data.comicId).remove();
     _user.save(function(error) {
       if(error) {
-        console.log(error);
         next(error);
       } else {
         res.send();
       }
     });
-    console.log(list.comics.id(data.comicId));
   });
 }
 
@@ -98,10 +90,8 @@ function updateListTitle(req, res, next) {
 
     _user.save(function(error) {
       if(error) {
-        console.log(error);
         next(error);
       } else {
-        console.log('removed comic!');
         res.send();
       }
     });

@@ -76,6 +76,7 @@ nav {
   background-color: $red;
   position: fixed;
   top: 0;
+  z-index: 10000;
 
   ul {
     list-style-type: none;
@@ -192,13 +193,32 @@ img {
 }
 
 select {
+  -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  text-overflow: '';
+  text-indent: 0.01px;
   border: 1px solid $black;
   outline: none;
   font-size: 20px;
   margin: 20px 0 0 0;
+  padding: 15px 40px 15px 20px;
+  background: url('../images/dropdownarrow.png') center right no-repeat;
+  background-position: 87%;
+
+  &:active {
+    outline-color: $red;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 
   option {
-    padding: 10px;  }
+    &:hover {
+      background: $red;
+    }
+  }
 }
 
 /* ---------- IDS -------------------------- */
@@ -223,11 +243,15 @@ select {
     font-size: 18px;
 
     &:hover {
-      opacity: 0.8;
+      color: $redhover;
     }
   }
 
   .letters {
+    max-width: 1040px;
+    width: 100%;
+    margin: 0 auto;
+
     a {
       background: $white;
       padding: 20px;
@@ -239,9 +263,11 @@ select {
       width: 30px;
       display: inline-block;
       text-decoration: none;
+      margin: 2px 0;
 
       &:hover {
         background-color: $redhover;
+        border: 1px solid $redhover;
         color: $white;
       }
     }
@@ -252,10 +278,13 @@ select {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  @include transition(0.5s);
+  -webkit-transition: box-shadow 0.5s;
+  transition: box-shadow 0.5s;
+  padding: 0;
+  line-height: 0;
 
   &:hover {
-    opacity: 0.7;
+    box-shadow: 0 0 10px rgb(99, 3, 7);
   }
 }
 
@@ -283,6 +312,8 @@ select {
   }
 
   .search .flex-container, .viewAllCharacters .flex-container {
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -341,7 +372,7 @@ select {
       display: inline-block;
       height: 50%;
       width: 100%;
-      font-size: 100px;
+      font-size: 110px;
       text-transform: uppercase;
       color: #fff;
       text-decoration: none;
@@ -447,6 +478,36 @@ select {
     .comic {
       width: 49%;
       display: inline-block;
+      position: relative;
+      vertical-align: middle;
+
+      &:hover {
+          cursor: pointer;
+        }
+
+      .comic-title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0,0,0,0.8);
+        color: $white;
+        height: 100%;
+        width: 100%;
+
+        a {
+          display: inline-block;
+          @include box-sizing(border-box);
+          font-family: 'Economica', arial, sans-serif;
+          font-size: 30px;
+          width: 100%;
+          height: 100%;
+          padding: 20px;
+          text-decoration: none;
+          color: $white;
+        }
+      }
     }
   }
 
@@ -456,7 +517,7 @@ select {
 
     h1 {
       text-transform: uppercase;
-      font-size: 30px;
+      font-size: 40px;
     }
 
     p {
@@ -608,10 +669,33 @@ select {
         width: 100%;
         margin: 0;
       }
+
+      .comic-container {
+        position: relative;
+
+        .comic-title {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: rgba(0,0,0,0.7);
+
+          a {
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            color: $white;
+            text-decoration: none;
+            padding: 20px;
+            font-size: 20px;
+            @include box-sizing(border-box);
+          }
+        }
+      }
     }
   }
 }
-
 
 .modal {
   position: fixed;
@@ -620,7 +704,7 @@ select {
   bottom: 0;
   left: 0;
   background: rgba(0,0,0,0.8);
-  z-index: 10000;
+  z-index: 11000;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
@@ -649,7 +733,7 @@ select {
     }
 
     p {
-      margin: 0;
+      margin: 10px 0;
     }
 
     img {

@@ -16,20 +16,19 @@ function index(req, res, next) {
     'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
     't', 'u', 'v', 'w', 'x', 'y', 'z'];
     var currentList = [];
-    var letters = [];
     var sortedCharacters = [];
     alphabet.forEach(function(letter) {
       currentList = [];
-      letters.push(letter);
+      currentList.push(letter);
       characters.forEach(function(character) {
-        currentList.push(letter);
         if (character.name.charAt(0).toLowerCase() === letter) {
           currentList.push(character);
         }
       });
       sortedCharacters.push(currentList);
     });
-    res.render('characters/index', { letters: letters, total: characters.length, sortedCharacters: sortedCharacters, user: req.user });
+    console.log(sortedCharacters);
+    res.render('characters/index', { letters: alphabet, total: characters.length, sortedCharacters: sortedCharacters, user: req.user });
   });
 }
 
@@ -46,7 +45,6 @@ function show(req, res, next) {
   var id = req.params.id;
   var character;
 
-  console.log('id: ' + id);
   Character.find({ id: id }, function(error, returnedCharacter) {
     if(error) next(error);
 
@@ -59,7 +57,7 @@ function show(req, res, next) {
       method: 'GET',
       uri: 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey='+process.env.MARVEL_PUBLIC_KEY+'&hash=' + hash
     }, function (error, response, body) {
-      if (error) console.log(error);
+      if (error) next(error);
 
       if (!error && response.statusCode == 200) {
         var comics = JSON.parse(response.body).data.results;

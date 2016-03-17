@@ -26,7 +26,12 @@
             <$ if (list.comics.length > 0) { $>
               <$ list.comics.forEach(function(comic) { $>
                 <div class="comic" data-title="<$= comic.title $>" data-id="<$= comic._id $>" data-comic-id="<$= comic.id $>">
-                  <a href="/comics/<$= comic.id $>"><img src="<$= comic.thumbnail $>" alt="<$= comic.thumbnail $>"></a>
+                  <div class="comic-container">
+                    <img src="<$= comic.thumbnail $>" alt="<$= comic.thumbnail $>">
+                    <div class="comic-title hide">
+                      <a href="/comics/<$= comic.id $>"><$= comic.title $></a>
+                    </div>
+                  </div>
                   <span class="button removeComic">REMOVE</span>
                 </div>
               <$ }); $> <!-- end loop through comics in a particular list -->

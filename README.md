@@ -2,20 +2,20 @@
 #MARVELOUS app 
 ###Planning on Reading a Comic? Make a list!
 
+#Mission Statement  
+Provide all MARVEL comic enthusiasts around the unverise a resource to organize their comic lists & collections!
 
-
+#The Idea
+A Marvel comic centric app that allows users to make custom comic book lists fro themslves and the ability browse the vast Marvel comic library.
 
 ![](http://i.imgur.com/WcuqFph.jpg)
 
-#Mission Statement  
-Provide all MARVEL comic enthusiasts around the unverise a resource to organize their comic lists & collections!
 
 
 
 ![](http://robot6.comicbookresources.com/wp-content/uploads/2013/11/mu-live-spidey.jpg	)
 
-#The Idea
-A Marvel comic centric app that allows users to make custom comic book lists fro themslves and the ability browse the vast Marvel comic library.
+
 
 #Why Marvel?
 
@@ -40,13 +40,19 @@ We hated how the list on Marve'ls website offered limited ability to sort throug
 
 ##Technologies & Concept Design
 
-
+###ERD Model
 ![ERD](https://i.imgur.com/3JWQzkP.jpg)
 
-
+###WIREFRAME SKETCHES
 ![](https://i.imgur.com/4aHeynz.png)
 
 ![](https://i.imgur.com/MvIHqvF.png)
+
+
+![](https://i.imgur.com/iZKBni0.jpg)
+
+![](https://i.imgur.com/6kP64hV.jpg)
+![](https://i.imgur.com/WKpSAs3.png)
 
 
 
@@ -71,6 +77,19 @@ We hated how the list on Marve'ls website offered limited ability to sort throug
 | CREATE | POST       |/auth/facebook                  |Posts a request for a log in token       |
 | INDEX  | GET        |/auth/facebook/callback         |Gets a cookie to be stored in session    |
 | DELETE | DESTROY    |/logout                         |Destroys cookie stored in sessio for user|
+
+#ICEBOX
+![](https://i.ytimg.com/vi/9goAudDipQY/hqdefault.jpg)
+
+
+#Installation
+
+
+
+![](https://i.imgur.com/7wsxhBS.jpg)
+
+
+![GA](http://washingtontechnology.org/wp-content/uploads/2014/11/General_Assembly_logo.png)
 
 
 

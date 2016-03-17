@@ -36,7 +36,8 @@ nav {
   width: 100%;
   background-color: #B6050F;
   position: fixed;
-  top: 0; }
+  top: 0;
+  z-index: 10000; }
   nav ul {
     list-style-type: none;
     margin: 0;
@@ -133,12 +134,24 @@ img {
   width: 100%; }
 
 select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-overflow: '';
+  text-indent: 0.01px;
   border: 1px solid #000;
   outline: none;
   font-size: 20px;
-  margin: 20px 0 0 0; }
-  select option {
-    padding: 10px; }
+  margin: 20px 0 0 0;
+  padding: 15px 40px 15px 20px;
+  background: url("../images/dropdownarrow.png") center right no-repeat;
+  background-position: 87%; }
+  select:active {
+    outline-color: #B6050F; }
+  select:hover {
+    cursor: pointer; }
+  select option:hover {
+    background: #B6050F; }
 
 /* ---------- IDS -------------------------- */
 #characters {
@@ -156,31 +169,38 @@ select {
     margin: 5px 0;
     font-size: 18px; }
     #characters a:hover {
-      opacity: 0.8; }
-  #characters .letters a {
-    background: #FFF;
-    padding: 20px;
-    color: #000;
-    border: 1px solid;
-    text-transform: uppercase;
-    font-size: 20px;
-    font-weight: bold;
-    width: 30px;
-    display: inline-block;
-    text-decoration: none; }
-    #characters .letters a:hover {
-      background-color: #96030a;
-      color: #FFF; }
+      color: #96030a; }
+  #characters .letters {
+    max-width: 1040px;
+    width: 100%;
+    margin: 0 auto; }
+    #characters .letters a {
+      background: #FFF;
+      padding: 20px;
+      color: #000;
+      border: 1px solid;
+      text-transform: uppercase;
+      font-size: 20px;
+      font-weight: bold;
+      width: 30px;
+      display: inline-block;
+      text-decoration: none;
+      margin: 2px 0; }
+      #characters .letters a:hover {
+        background-color: #96030a;
+        border: 1px solid #96030a;
+        color: #FFF; }
 
 #backToTop {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  -webkit-transition: 0.5s;
-  -moz-transition: 0.5s;
-  transition: 0.5s; }
+  -webkit-transition: box-shadow 0.5s;
+  transition: box-shadow 0.5s;
+  padding: 0;
+  line-height: 0; }
   #backToTop:hover {
-    opacity: 0.7; }
+    box-shadow: 0 0 10px #630307; }
 
 /* ---------- CLASSES ---------------------- */
 .container {
@@ -199,6 +219,8 @@ select {
     height: 100%;
     vertical-align: top; }
   .home .search .flex-container, .home .viewAllCharacters .flex-container {
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -240,7 +262,7 @@ select {
       display: inline-block;
       height: 50%;
       width: 100%;
-      font-size: 100px;
+      font-size: 110px;
       text-transform: uppercase;
       color: #fff;
       text-decoration: none;
@@ -312,14 +334,40 @@ select {
   overflow: scroll; }
   .character-show .comic-container .comic {
     width: 49%;
-    display: inline-block; }
+    display: inline-block;
+    position: relative;
+    vertical-align: middle; }
+    .character-show .comic-container .comic:hover {
+      cursor: pointer; }
+    .character-show .comic-container .comic .comic-title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: #FFF;
+      height: 100%;
+      width: 100%; }
+      .character-show .comic-container .comic .comic-title a {
+        display: inline-block;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        font-family: 'Economica', arial, sans-serif;
+        font-size: 30px;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        text-decoration: none;
+        color: #FFF; }
 
 .character-show .character-container {
   height: 100%;
   overflow: hidden; }
   .character-show .character-container h1 {
     text-transform: uppercase;
-    font-size: 30px; }
+    font-size: 40px; }
   .character-show .character-container p {
     margin: 10px 0 0 0; }
   .character-show .character-container div {
@@ -413,6 +461,26 @@ select {
     .user-show .comic-lists .comic span.button {
       width: 100%;
       margin: 0; }
+    .user-show .comic-lists .comic .comic-container {
+      position: relative; }
+      .user-show .comic-lists .comic .comic-container .comic-title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.7); }
+        .user-show .comic-lists .comic .comic-container .comic-title a {
+          display: inline-block;
+          height: 100%;
+          width: 100%;
+          color: #FFF;
+          text-decoration: none;
+          padding: 20px;
+          font-size: 20px;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box; }
 
 .modal {
   position: fixed;
@@ -421,7 +489,7 @@ select {
   bottom: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.8);
-  z-index: 10000;
+  z-index: 11000;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
@@ -442,7 +510,7 @@ select {
         .modal .content span.no:hover {
           background: #333; }
     .modal .content p {
-      margin: 0; }
+      margin: 10px 0; }
     .modal .content img {
       max-width: 20px;
       max-height: 20px; }
