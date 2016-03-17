@@ -41,11 +41,11 @@ function show(req, res, next) {
     character = returnedCharacter[0];
     var ts = Date().toString();
     var hash = md5(ts + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY);
-
+    var uri  = 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey='+process.env.MARVEL_PUBLIC_KEY+'&hash=' + hash;
     //GRAB COMICS
     request({
       method: 'GET',
-      uri: 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey='+process.env.MARVEL_PUBLIC_KEY+'&hash=' + hash
+      uri:    uri
     }, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var comics = JSON.parse(response.body).data.results;
@@ -65,7 +65,14 @@ function show(req, res, next) {
       } else if (error) {
        next(error);
      } else {
-       next("Unknown status code received: " + response.statusCode + ", " + body);
+      var errObject = {
+        message: "Unknown status code received...",
+        status:  response.statusCode,
+        body:    body,
+        hash:    hash,
+        uri:     uri
+      }
+      next(errObject);
      }
     });
   });

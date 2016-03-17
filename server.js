@@ -89,7 +89,7 @@ app.use(function(err, req, res, next) {
   } else {
     console.log("ERROR:", err);
     res.status(err.status || 500);
-    res.send("Application error: " + err.status);
+    res.send("<h1>Application error: " + res.statusCode + "</h1>");
   }
 });
 
