@@ -39,7 +39,7 @@ function show(req, res, next) {
     if(error) next(error);
 
     character = returnedCharacter[0];
-    var ts = Date().toString();
+    var ts   = Date.now();
     var hash = md5(ts + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY);
     var uri  = 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey='+process.env.MARVEL_PUBLIC_KEY+'&hash=' + hash;
     //GRAB COMICS
