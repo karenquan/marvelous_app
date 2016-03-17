@@ -12,8 +12,12 @@ var passport = require('passport');
 var env      = require('./config/environment'),
     mongoose = require('./config/database'),
     routes   = require('./config/routes');
-               require('dotenv').load();
-               require('./config/passport');
+
+if (process.env.NODE_ENV !== "production") {
+  require('dotenv').load();
+}
+
+require('./config/passport');
 
 // Instantiate a server application.
 var app = express();
@@ -76,12 +80,17 @@ app.use(function(req, res, next) {
 // Error-handling layer.
 app.use(function(err, req, res, next) {
   // In development, the error handler will print stacktrace.
-  err = (app.get('env') === 'development') ? err : {};
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: err
-  });
+  if (process.env.NODE_ENV !== "production") {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  } else {
+    console.log("ERROR:", err);
+    res.status(err.status || 500);
+    res.send("<h1>Application error: " + res.statusCode + "</h1>");
+  }
 });
 
 function debugReq(req, res, next) {
