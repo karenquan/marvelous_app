@@ -20,10 +20,13 @@
         <div class="comic">
         <!-- comic thumbnails are not stored in the database, so set path to custom image -->
           <$ if(comic.thumbnail.match(/image_not_available/)) { $>
-            <a href="/comics/<$= comic.id $>"><img src="../../images/notfound.gif" alt="<$= comic.title $>"></a>
+            <img src="../../images/notfound.gif" alt="<$= comic.title $>">
           <$ } else { $>
-             <a href="/comics/<$= comic.id $>"><img src="<$= comic.thumbnail $>" alt="<$= comic.title $>"></a>
+             <img src="<$= comic.thumbnail $>" alt="<$= comic.title $>">
           <$ } $>
+          <div class="comic-title hide">
+            <a href="/comics/<$= comic.id $>"><$= comic.title $></a>
+          </div>
         </div>
       <$ }); $>
     </article>
