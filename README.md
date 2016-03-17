@@ -33,8 +33,11 @@ We hated how the list on Marve'ls website offered limited ability to sort throug
 ![](https://i.imgur.com/iZKBni0.jpg)
 ![](https://i.imgur.com/6kP64hV.jpg)
 ![](https://i.imgur.com/WKpSAs3.png)
-![](https://i.imgur.com/xZ33fu9.png)
-#Routes
+![](https://i.imgur.com/xZ33fu9.png)  
+
+#Routes  
+
+
 | Route  | Method     |                            Path|Access                                   |
 |:------:| ----------:|-------------------------------:|-----------------------------------------|
 | INDEX  | GET        |/pages/index                    |No Authentication                        |
