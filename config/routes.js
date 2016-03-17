@@ -18,9 +18,7 @@ router.get('/users/:id', usersController.show);
 
 // characters
 router.get('/characters', charactersController.index);
-router.post('/characters', charactersController.create);
 router.get('/characters/:id', charactersController.show);
-router.get('/characters/search/:name', charactersController.search);
 
 // comics
 router.get('/comics/:id', comicsController.show);
@@ -32,6 +30,7 @@ router.put('/users/:id/lists/:listId', apiController.updateListTitle);
 router.post('/users/:id/lists/:listId/comics', apiController.addComicToList);
 router.delete('/users/:id/lists/:listId/comics/:comicId', apiController.destroyComic);
 router.get('/users/:id/lists', apiController.getUserLists);
+router.get('/characters/search/:name', apiController.search);
 
 // passport/OAuth2
 router.get('/auth/facebook', passport.authenticate(

@@ -1,4 +1,5 @@
 var User = require('../models/user');
+var Character = require('../models/character');
 
 module.exports = {
   createList: createList,
@@ -6,7 +7,8 @@ module.exports = {
   addComicToList: addComicToList,
   destroyComic: destroyComic,
   updateListTitle: updateListTitle,
-  getUserLists: getUserLists
+  getUserLists: getUserLists,
+  search: characterSearch
 };
 
 function createList(req, res, next) {
@@ -102,5 +104,15 @@ function getUserLists(req, res, next) {
   var id = req.params.id;
   User.find({ facebookId: id }, function(error, user) {
     res.send(user[0].lists);
+  });
+}
+
+function characterSearch(req, res, next) {
+  var characterName = decodeURI(req.params.name);
+  Character.find({ name: { $regex: new RegExp("^" + characterName, "i") } }, function(error, characters) {
+    if(error) next(error);
+    else {
+      res.json(characters);
+    }
   });
 }
