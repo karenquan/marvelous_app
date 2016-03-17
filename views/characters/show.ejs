@@ -10,7 +10,7 @@
       <div>
         <h1><$= character.name $></h1>
         <$ if (character.description.length > 0) { $>
-          <p><$= character.description $></p>
+          <p><$- character.description $></p>
         <$ } $>
       </div>
       <img src="<$= character.thumbnail $>" alt="<$= character.name $>" />
