@@ -169,7 +169,7 @@ select {
     margin: 5px 0;
     font-size: 18px; }
     #characters a:hover {
-      opacity: 0.8; }
+      color: #96030a; }
   #characters .letters {
     max-width: 1040px;
     width: 100%;
@@ -185,8 +185,8 @@ select {
       width: 30px;
       display: inline-block;
       text-decoration: none;
-      margin: 2px #characters .letters a; }
-      #characters .letters a :hover {
+      margin: 2px 0; }
+      #characters .letters a:hover {
         background-color: #96030a;
         border: 1px solid #96030a;
         color: #FFF; }

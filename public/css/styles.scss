@@ -243,7 +243,7 @@ select {
     font-size: 18px;
 
     &:hover {
-      opacity: 0.8;
+      color: $redhover;
     }
   }
 
@@ -263,7 +263,7 @@ select {
       width: 30px;
       display: inline-block;
       text-decoration: none;
-      margin: 2px
+      margin: 2px 0;
 
       &:hover {
         background-color: $redhover;
