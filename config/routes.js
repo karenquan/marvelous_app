@@ -35,14 +35,14 @@ router.get('/characters/search/:name', apiController.search);
 // passport/OAuth2
 router.get('/auth/facebook', passport.authenticate(
   'facebook',
-  {scope: 'public_profile'}
+  {scope: 'public_profile'},{auth_type: 'reauthenticate'}
 ));
 
 router.get('/auth/facebook/callback', passport.authenticate(
   'facebook',
   {
-    successRedirect: '/',
-    failureRedirect: '/'
+    successRedirect: 'back',
+    failureRedirect: 'back'
   }
 ));
 
