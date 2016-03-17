@@ -243,12 +243,12 @@ select {
     font-size: 18px;
 
     &:hover {
-      opacity: 0.8;
+      color: $redhover;
     }
   }
 
   .letters {
-    max-width: 1000px;
+    max-width: 1040px;
     width: 100%;
     margin: 0 auto;
 
@@ -263,6 +263,7 @@ select {
       width: 30px;
       display: inline-block;
       text-decoration: none;
+      margin: 2px 0;
 
       &:hover {
         background-color: $redhover;
@@ -277,10 +278,13 @@ select {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  @include transition(0.5s);
+  -webkit-transition: box-shadow 0.5s;
+  transition: box-shadow 0.5s;
+  padding: 0;
+  line-height: 0;
 
   &:hover {
-    opacity: 0.7;
+    box-shadow: 0 0 10px rgb(99, 3, 7);
   }
 }
 
@@ -729,7 +733,7 @@ select {
     }
 
     p {
-      margin: 0;
+      margin: 10px 0;
     }
 
     img {

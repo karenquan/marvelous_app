@@ -3,7 +3,6 @@ var express = require('express'),
     // require passport
     passport = require('passport');
 
-
 // Require controllers.
 var pagesController = require('../controllers/pages');
 var usersController = require('../controllers/users');
@@ -33,7 +32,6 @@ router.put('/users/:id/lists/:id', apiController.updateListTitle);
 router.post('/users/:id/lists/:id/comics', apiController.addComicToList);
 router.delete('/users/:id/lists/:id/comics/:id', apiController.destroyComic);
 router.get('/users/:id/lists', apiController.getUserLists);
-
 
 // passport/OAuth2
 router.get('/auth/facebook', passport.authenticate(

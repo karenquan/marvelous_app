@@ -10,13 +10,11 @@
       <h1>View All Characters</h1>
       <p<em>Last Updated on 03/15/16</em></p>
       <h2>Total: <strong><$= total $></strong></h2>
-
       <div class="letters">
         <$ letters.forEach(function(letter) { $>
             <a href="#<$= letter $>" class="button <$= letter $>"><$= letter $></a>
         <$ }); $>
       </div>
-
       <div class="results">
         <$ sortedCharacters.forEach(function(characterSet) { $>
           <span id="<$= characterSet[0] $>"><$= characterSet[0] $></span>

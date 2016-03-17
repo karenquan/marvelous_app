@@ -206,7 +206,7 @@ var Main = (function() {
         comicId: $comicId
       };
 
-      displayModal('list', $title);
+      displayModal('comic', $title);
       $('#yesButton').on('click', function() {
         removeComic($comicContainer, $listId, $comicId, data);
         $('#yesButton').unbind('click'); // NECESSARY SO OLD COMICS DON'T PILE UP IN CLICK EVENT
