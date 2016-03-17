@@ -45,7 +45,8 @@ function show(req, res, next) {
     //GRAB COMICS
     request({
       method: 'GET',
-      uri:    uri
+      uri:    uri,
+      timeout: 119000
     }, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var comics = JSON.parse(response.body).data.results;
