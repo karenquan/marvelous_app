@@ -47,8 +47,6 @@ function show(req, res, next) {
       method: 'GET',
       uri: 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey='+process.env.MARVEL_PUBLIC_KEY+'&hash=' + hash
     }, function (error, response, body) {
-      if (error) next(error);
-
       if (!error && response.statusCode == 200) {
         var comics = JSON.parse(response.body).data.results;
 
@@ -64,7 +62,11 @@ function show(req, res, next) {
 
         //add object of comics to view
         res.render('characters/show', { character: character, comics: parsedComics, user: req.user });
-      }
+      } else if (error) {
+       next(error);
+     } else {
+       next("Unknown status code received: " + response.statusCode + ", " + body);
+     }
     });
   });
 }
