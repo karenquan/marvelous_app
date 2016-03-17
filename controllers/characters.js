@@ -46,7 +46,6 @@ function show(req, res, next) {
   var id = req.params.id;
   var character;
 
-  console.log('id: ' + id);
   Character.find({ id: id }, function(error, returnedCharacter) {
     if(error) next(error);
 
@@ -59,7 +58,7 @@ function show(req, res, next) {
       method: 'GET',
       uri: 'http://gateway.marvel.com/v1/public/characters/' + id + '/comics?limit=50&ts=' + ts + '&apikey='+process.env.MARVEL_PUBLIC_KEY+'&hash=' + hash
     }, function (error, response, body) {
-      if (error) console.log(error);
+      if (error) next(error);
 
       if (!error && response.statusCode == 200) {
         var comics = JSON.parse(response.body).data.results;
