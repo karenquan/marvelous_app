@@ -193,13 +193,32 @@ img {
 }
 
 select {
+  -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  text-overflow: '';
+  text-indent: 0.01px;
   border: 1px solid $black;
   outline: none;
   font-size: 20px;
   margin: 20px 0 0 0;
+  padding: 15px 40px 15px 20px;
+  background: url('../images/dropdownarrow.png') center right no-repeat;
+  background-position: 87%;
+
+  &:active {
+    outline-color: $red;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 
   option {
-    padding: 10px;  }
+    &:hover {
+      background: $red;
+    }
+  }
 }
 
 /* ---------- IDS -------------------------- */
@@ -247,6 +266,7 @@ select {
 
       &:hover {
         background-color: $redhover;
+        border: 1px solid $redhover;
         color: $white;
       }
     }
@@ -472,8 +492,6 @@ select {
         height: 100%;
         width: 100%;
 
-
-
         a {
           display: inline-block;
           @include box-sizing(border-box);
@@ -674,7 +692,6 @@ select {
     }
   }
 }
-
 
 .modal {
   position: fixed;
