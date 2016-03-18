@@ -25,7 +25,6 @@ function index(req, res, next) {
       });
       sortedCharacters.push(currentList);
     });
-    console.log(sortedCharacters);
     res.render('characters/index', { letters: alphabet, total: characters.length, sortedCharacters: sortedCharacters, user: req.user });
   });
 }
