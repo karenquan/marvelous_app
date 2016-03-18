@@ -32,6 +32,8 @@ var Main = (function() {
     loadUsersLists();
     backToTop();
 
+    $('.button.num, #num').html('#');
+
     // EVENT HANDLERS ----------------------------------------------------------
 
     // HOME PAGE SEARCH INPUT
