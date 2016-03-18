@@ -10,7 +10,7 @@ module.exports = {
 function index(req, res, next) {
   Character.find({}, function(error, characters) {
     //FILTER CHARACTERS BY FIRST LETTER
-    var alphabet = ['3','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+    var alphabet = ['num', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
     'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
     't', 'u', 'v', 'w', 'x', 'y', 'z'];
     var currentList = [];
@@ -19,7 +19,10 @@ function index(req, res, next) {
       currentList = [];
       currentList.push(letter);
       characters.forEach(function(character) {
-        if (character.name.charAt(0).toLowerCase() === letter) {
+        if (!isNaN(parseFloat(character.name.charAt(0))) && isFinite(character.name.charAt(0)) && letter === 'num') {
+          currentList.push(character);
+        }
+        else if (character.name.charAt(0).toLowerCase() === letter) {
           currentList.push(character);
         }
       });

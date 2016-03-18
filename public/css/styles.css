@@ -171,7 +171,7 @@ select {
     #characters a:hover {
       color: #96030a; }
   #characters .letters {
-    max-width: 1040px;
+    max-width: 740px;
     width: 100%;
     margin: 0 auto; }
     #characters .letters a {
@@ -220,6 +220,7 @@ select {
     vertical-align: top; }
   .home .search .flex-container, .home .viewAllCharacters .flex-container {
     max-width: 600px;
+    max-height: 680px;
     margin: 0 auto;
     padding: 20px;
     display: -ms-flexbox;
@@ -439,7 +440,7 @@ select {
   .user-show .comic-lists .list {
     padding: 30px 0;
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
     white-space: nowrap; }
     .user-show .comic-lists .list:nth-child(2n) {
       background-color: #000; }

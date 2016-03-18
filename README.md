@@ -4,7 +4,7 @@
 
 ![MarvelUniverse](http://vignette1.wikia.nocookie.net/marveldatabase/images/e/e1/The_Marvel_Universe.png/revision/latest?cb=20110513164401)  
 # The Mission 
-A Marvel comic centric app that allows users to make custom comic book lists for themselves, and browse the vast Marvel comic library. This would provide all MARVEL comic enthusiasts around the universe a resource to organize their comic lists and collections!
+A Marvel comic centric app that allows users to make custom comic book lists for themselves, and browse the vast Marvel comic library. This would provide all Marvel comic enthusiasts around the universe a resource to organize their comic lists and collections!
 
 
 # Why Marvel?
